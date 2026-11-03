@@ -1,0 +1,879 @@
+# French translation for Tempo.
+# This file is distributed under the same license as the Tempo package.
+msgid ""
+msgstr ""
+"Project-Id-Version: tempo\n"
+"PO-Revision-Date: 2026-11-03 18:00+0100\n"
+"Last-Translator: Ferhat\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Clean app cache"
+msgstr "Nettoyer le cache de l’application"
+
+msgid "Sync notes"
+msgstr "Synchroniser les notes"
+
+msgid "Index photos"
+msgstr "Indexer les photos"
+
+msgid "Back up documents"
+msgstr "Sauvegarder les documents"
+
+msgid "Daily weather report"
+msgstr "Bulletin météo quotidien"
+
+msgid "Firmware update check"
+msgstr "Vérification des mises à jour du micrologiciel"
+
+msgid "Launchpad cache cleanup"
+msgstr "Nettoyage du cache Launchpad"
+
+msgid "Usage statistics upload"
+msgstr "Envoi des statistiques d’utilisation"
+
+msgid "Running now"
+msgstr "En cours d’exécution"
+
+msgid "Last run: {result}, {when}"
+msgstr "Dernière exécution : {result}, {when}"
+
+msgid "Has not run yet"
+msgstr "Ne s’est pas encore exécuté"
+
+msgid "The last run failed"
+msgstr "La dernière exécution a échoué"
+
+msgid "It stopped after {n} s."
+msgstr "Elle s’est arrêtée après {n} s."
+
+msgid "Exit code {n}."
+msgstr "Code de sortie {n}."
+
+msgid "See what it said"
+msgstr "Voir ce qu’elle a affiché"
+
+msgid "Clear the failed mark once it is fixed"
+msgstr "Effacer la marque d’échec une fois le problème réglé"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Schedule"
+msgstr "Planification"
+
+msgid "Next run"
+msgstr "Prochaine exécution"
+
+msgid "Last runs"
+msgstr "Dernières exécutions"
+
+msgid "{ok} succeeded, {bad} failed, {skipped} skipped"
+msgstr "Réussies : {ok}, échouées : {bad}, ignorées : {skipped}"
+
+msgid "Runs"
+msgstr "Commande"
+
+msgid "Timer file"
+msgstr "Fichier du minuteur"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Resume"
+msgstr "Reprendre"
+
+msgid "Pause"
+msgstr "Mettre en pause"
+
+msgid "Run Now"
+msgstr "Lancer maintenant"
+
+msgid "Edit…"
+msgstr "Modifier…"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Available in a later version"
+msgstr "Disponible dans une prochaine version"
+
+msgid "To stop or remove it"
+msgstr "Pour l’arrêter ou le supprimer"
+
+msgid "Tempo never changes a timer it did not create. To act on this one, run a command in a terminal."
+msgstr "Tempo ne modifie jamais un minuteur qu’il n’a pas créé. Pour agir sur celui-ci, lancez une commande dans un terminal."
+
+msgid "Stop it until you log in again"
+msgstr "L’arrêter jusqu’à votre prochaine connexion"
+
+msgid "Turn it off for good"
+msgstr "Le désactiver définitivement"
+
+msgid "Prevent it from starting at all"
+msgstr "L’empêcher complètement de démarrer"
+
+msgid "To remove it for every user, uninstall the package that installed it."
+msgstr "Pour le supprimer pour tous les utilisateurs, désinstallez le paquet qui l’a installé."
+
+msgid "Yours"
+msgstr "À vous"
+
+msgid "System"
+msgstr "Système"
+
+msgid "took {n} s"
+msgstr "a duré {n} s"
+
+msgid "exit code {n}"
+msgstr "code de sortie {n}"
+
+msgid "Last runs: {ok} succeeded, {bad} failed, {skipped} skipped"
+msgstr "Dernières exécutions : réussies : {ok}, échouées : {bad}, ignorées : {skipped}"
+
+msgid "Copy"
+msgstr "Copier"
+
+msgid "Paused"
+msgstr "En pause"
+
+msgid "Next run {when}"
+msgstr "Prochaine exécution {when}"
+
+msgid "No next run planned"
+msgstr "Aucune prochaine exécution prévue"
+
+msgid "{result} {when}"
+msgstr "{result} {when}"
+
+msgid "Never run"
+msgstr "Jamais exécuté"
+
+msgid "{schedule} · {next}"
+msgstr "{schedule} · {next}"
+
+msgid "{name}, {schedule}, {last}"
+msgstr "{name}, {schedule}, {last}"
+
+msgid "Next: {name}, {when}"
+msgstr "Prochain : {name}, {when}"
+
+msgid "Then {name}, {when}"
+msgstr "Puis {name}, {when}"
+
+msgid "Nothing is scheduled"
+msgstr "Rien n’est planifié"
+
+msgid "Create your first timer to see it here."
+msgstr "Créez votre premier minuteur pour le voir ici."
+
+msgid "A preview with made-up timers"
+msgstr "Un aperçu avec des minuteurs inventés"
+
+msgid "No Timers Yet"
+msgstr "Aucun minuteur pour l’instant"
+
+msgid "Your Timers"
+msgstr "Vos minuteurs"
+
+msgid "System Timers"
+msgstr "Minuteurs du système"
+
+msgid "Provided by your system or an app. Tempo shows them and tells you how to stop them, but never changes them."
+msgstr "Fournis par votre système ou une application. Tempo les affiche et vous dit comment les arrêter, mais ne les modifie jamais."
+
+msgid "in a moment"
+msgstr "dans un instant"
+
+msgid "just now"
+msgstr "à l’instant"
+
+msgid "in {n} min"
+msgstr "dans {n} min"
+
+msgid "{n} min ago"
+msgstr "il y a {n} min"
+
+msgid "in {n} h"
+msgstr "dans {n} h"
+
+msgid "{n} h ago"
+msgstr "il y a {n} h"
+
+msgid "Succeeded"
+msgstr "Réussie"
+
+msgid "Failed"
+msgstr "Échouée"
+
+msgid "Skipped"
+msgstr "Ignorée"
+
+msgid "Mon"
+msgstr "lun."
+
+msgid "Tue"
+msgstr "mar."
+
+msgid "Wed"
+msgstr "mer."
+
+msgid "Thu"
+msgstr "jeu."
+
+msgid "Fri"
+msgstr "ven."
+
+msgid "Sat"
+msgstr "sam."
+
+msgid "Sun"
+msgstr "dim."
+
+msgid "Every hour at :{minute}"
+msgstr "Toutes les heures à :{minute}"
+
+msgid "Every day at {time}"
+msgstr "Tous les jours à {time}"
+
+msgid "{days} at {time}"
+msgstr "{days} à {time}"
+
+msgid "Day {day} of each month at {time}"
+msgstr "Le {day} de chaque mois à {time}"
+
+msgid "Every minute"
+msgid_plural "Every {n} minutes"
+msgstr[0] "Chaque minute"
+msgstr[1] "Toutes les {n} minutes"
+
+msgid "Every day"
+msgid_plural "Every {n} days"
+msgstr[0] "Tous les jours"
+msgstr[1] "Tous les {n} jours"
+
+msgid "Every hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "Toutes les heures"
+msgstr[1] "Toutes les {n} heures"
+
+msgid "in {n} day"
+msgid_plural "in {n} days"
+msgstr[0] "dans {n} jour"
+msgstr[1] "dans {n} jours"
+
+msgid "{n} day ago"
+msgid_plural "{n} days ago"
+msgstr[0] "il y a {n} jour"
+msgstr[1] "il y a {n} jours"
+
+msgid "About"
+msgstr "À propos"
+
+msgid "Cannot Reach systemd"
+msgstr "Impossible de joindre systemd"
+
+msgid "Clean downloads folder"
+msgstr "Nettoyer le dossier Téléchargements"
+
+msgid "Personal"
+msgstr "Personnel"
+
+msgid "Ran {when}"
+msgstr "Exécuté {when}"
+
+msgid "Result unknown"
+msgstr "Résultat inconnu"
+
+msgid "You wrote this timer by hand, so Tempo does not manage it. To act on it, run a command in a terminal."
+msgstr "Vous avez écrit ce minuteur à la main : Tempo ne le gère donc pas. Pour agir dessus, lancez une commande dans un terminal."
+
+msgid "_Try Again"
+msgstr "_Réessayer"
+
+msgid "Could not do that: {error}"
+msgstr "Impossible : {error}"
+
+msgid "Deleting…"
+msgstr "Suppression…"
+
+msgid "Not available in the preview"
+msgstr "Indisponible dans l’aperçu"
+
+msgid "Paused: it starts again when you log in"
+msgstr "En pause : il redémarre à votre prochaine connexion"
+
+msgid "Pausing…"
+msgstr "Mise en pause…"
+
+msgid "Resuming…"
+msgstr "Reprise…"
+
+msgid "Starting…"
+msgstr "Lancement…"
+
+msgid "Turn Off"
+msgstr "Désactiver"
+
+msgid "Turn On"
+msgstr "Activer"
+
+msgid "Turned off: it does not run until you turn it on"
+msgstr "Désactivé : il ne s’exécute pas tant que vous ne l’activez pas"
+
+msgid "Turning off…"
+msgstr "Désactivation…"
+
+msgid "Turning on…"
+msgstr "Activation…"
+
+msgid "Undo"
+msgstr "Annuler"
+
+msgid "“{name}” deleted"
+msgstr "« {name} » supprimé"
+
+msgid "“{name}” is back"
+msgstr "« {name} » est de retour"
+
+msgid "“{name}” paused"
+msgstr "« {name} » mis en pause"
+
+msgid "“{name}” resumed"
+msgstr "« {name} » repris"
+
+msgid "“{name}” started"
+msgstr "« {name} » lancé"
+
+msgid "“{name}” turned off"
+msgstr "« {name} » désactivé"
+
+msgid "“{name}” turned on"
+msgstr "« {name} » activé"
+
+msgid "Copy Logs"
+msgstr "Copier les journaux"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Lines appear here as soon as this timer or its service writes some."
+msgstr "Les lignes s’affichent ici dès que ce minuteur ou son service en écrit."
+
+msgid "Logs"
+msgstr "Journaux"
+
+msgid "No Log Lines Yet"
+msgstr "Aucune ligne de journal pour l’instant"
+
+msgid "No Problems"
+msgstr "Aucun problème"
+
+msgid "Nothing went wrong in these logs."
+msgstr "Rien d’anormal dans ces journaux."
+
+msgid "Problems Only"
+msgstr "Problèmes uniquement"
+
+msgid "Save Logs"
+msgstr "Enregistrer les journaux"
+
+msgid "Saved to {path}"
+msgstr "Enregistré dans {path}"
+
+msgid "The lines of the timer and of its service, live"
+msgstr "Les lignes du minuteur et de son service, en direct"
+
+msgid "This location cannot be written to"
+msgstr "Impossible d’écrire à cet emplacement"
+
+msgid "View Logs"
+msgstr "Voir les journaux"
+
+msgid "Warning"
+msgstr "Attention"
+
+msgid "A compiled program."
+msgstr "Un programme compilé."
+
+msgid "A mistake in the path or the variable could delete more than you mean. Check it before you schedule it."
+msgstr "Une erreur dans le chemin ou la variable pourrait supprimer plus que prévu. Vérifiez avant de le planifier."
+
+msgid "A self-contained program."
+msgstr "Un programme autonome."
+
+msgid "A text file Tempo cannot run"
+msgstr "Un fichier texte que Tempo ne sait pas lancer"
+
+msgid "A timer can run it, but look at these points first."
+msgstr "Un minuteur peut le lancer, mais regardez d’abord ces points."
+
+msgid "A timer cannot run this file as it is."
+msgstr "Un minuteur ne peut pas lancer ce fichier tel quel."
+
+msgid "A timer cannot start a program that is not marked executable. Run the command below to fix it."
+msgstr "Un minuteur ne peut pas lancer un programme qui n’est pas marqué comme exécutable. Lancez la commande ci-dessous pour corriger."
+
+msgid "A timer has no terminal to type a password in, so this step will fail unless the command is set up to run without one."
+msgstr "Un minuteur n’a pas de terminal pour saisir un mot de passe : cette étape échouera, sauf si la commande est réglée pour s’en passer."
+
+msgid "A timer runs a program or a script, not a folder. Choose the file inside it."
+msgstr "Un minuteur lance un programme ou un script, pas un dossier. Choisissez le fichier qu’il contient."
+
+msgid "AppImage program"
+msgstr "Programme AppImage"
+
+msgid "Asks for administrator rights ({tool})"
+msgstr "Demande les droits d’administrateur ({tool})"
+
+msgid "Built for another processor"
+msgstr "Conçu pour un autre processeur"
+
+msgid "Choose Another File…"
+msgstr "Choisir un autre fichier…"
+
+msgid "Choose a Script or a Program"
+msgstr "Choisir un script ou un programme"
+
+msgid "Command"
+msgstr "Commande"
+
+msgid "Create the Timer…"
+msgstr "Créer le minuteur…"
+
+msgid "Deletes files recursively"
+msgstr "Supprime des fichiers récursivement"
+
+msgid "Drop a script or a program"
+msgstr "Déposez un script ou un programme"
+
+msgid "Drop a script or a program on this window, or choose one, to run it on a schedule."
+msgstr "Déposez un script ou un programme sur cette fenêtre, ou choisissez-en un, pour le lancer à intervalles réguliers."
+
+msgid "Files there are deleted sooner or later, and the timer would then fail."
+msgstr "Les fichiers y sont supprimés tôt ou tard, et le minuteur échouerait alors."
+
+msgid "In a temporary folder"
+msgstr "Dans un dossier temporaire"
+
+msgid "In the trash"
+msgstr "Dans la corbeille"
+
+msgid "In your Downloads folder"
+msgstr "Dans votre dossier Téléchargements"
+
+msgid "It has no #! line and its name does not say which program reads it. Add a first line such as #!/bin/bash, or choose another file."
+msgstr "Il n’a pas de ligne #! et son nom n’indique pas quel programme le lit. Ajoutez une première ligne comme #!/bin/bash, ou choisissez un autre fichier."
+
+msgid "It has no #! line: Tempo guesses {name} from the file name."
+msgstr "Il n’a pas de ligne #! : Tempo devine {name} d’après le nom du fichier."
+
+msgid "It lives in your own files, not in a temporary folder or on a removable drive."
+msgstr "Il est dans vos propres fichiers, pas dans un dossier temporaire ni sur un disque amovible."
+
+msgid "It refers to files such as ./data.txt. Tempo will start it from its own folder, {folder}."
+msgstr "Il désigne des fichiers comme ./data.txt. Tempo le lancera depuis son propre dossier, {folder}."
+
+msgid "Its first line asks for {name}."
+msgstr "Sa première ligne demande {name}."
+
+msgid "JavaScript script (Node)"
+msgstr "Script JavaScript (Node)"
+
+msgid "Kept in a stable place"
+msgstr "Rangé à un endroit stable"
+
+msgid "New Timer"
+msgstr "Nouveau minuteur"
+
+msgid "New Timer from a File…"
+msgstr "Nouveau minuteur à partir d’un fichier…"
+
+msgid "Nobody is there to type: it would wait for ever. Remove the question, or give it its answers."
+msgstr "Personne ne sera là pour taper : il attendrait indéfiniment. Supprimez la question, ou donnez-lui ses réponses."
+
+msgid "Not a program or a script"
+msgstr "Ni un programme ni un script"
+
+msgid "Not marked executable"
+msgstr "Non marqué comme exécutable"
+
+msgid "On a removable drive"
+msgstr "Sur un disque amovible"
+
+msgid "Only the first file is looked at."
+msgstr "Seul le premier fichier est examiné."
+
+msgid "PHP script"
+msgstr "Script PHP"
+
+msgid "Perl script"
+msgstr "Script Perl"
+
+msgid "Program"
+msgstr "Programme"
+
+msgid "Program ({arch})"
+msgstr "Programme ({arch})"
+
+msgid "Python script"
+msgstr "Script Python"
+
+msgid "Ready: a timer can run this file."
+msgstr "Prêt : un minuteur peut lancer ce fichier."
+
+msgid "Ruby script"
+msgstr "Script Ruby"
+
+msgid "Run this in a terminal"
+msgstr "À lancer dans un terminal"
+
+msgid "Script ({name})"
+msgstr "Script ({name})"
+
+msgid "Shell script ({name})"
+msgstr "Script shell ({name})"
+
+msgid "Starts from the folder"
+msgstr "Part du dossier"
+
+msgid "Suggested name"
+msgstr "Nom proposé"
+
+msgid "Suggested title"
+msgstr "Titre proposé"
+
+msgid "Tempo can keep a copy of the file in its own folder when you create the timer."
+msgstr "Tempo peut garder une copie du fichier dans son propre dossier quand vous créez le minuteur."
+
+msgid "That is fine: Tempo starts it with {name}."
+msgstr "Ce n’est pas grave : Tempo le lance avec {name}."
+
+msgid "That is not a file on this computer."
+msgstr "Ce n’est pas un fichier de cet ordinateur."
+
+msgid "The file needs {name}, which this computer does not have. Install it, or change the first line."
+msgstr "Le fichier a besoin de {name}, que cet ordinateur n’a pas. Installez-le, ou changez la première ligne."
+
+msgid "The file will be deleted when the trash is emptied."
+msgstr "Le fichier sera supprimé quand la corbeille sera vidée."
+
+msgid "The first line ends with an invisible carriage return, so the system looks for “{name}” followed by it, and fails. Convert the file."
+msgstr "La première ligne se termine par un retour chariot invisible : le système cherche « {name} » suivi de ce caractère, et échoue. Convertissez le fichier."
+
+msgid "The timer would fail whenever the drive is not plugged in."
+msgstr "Le minuteur échouerait chaque fois que le disque n’est pas branché."
+
+msgid "This folder gets tidied, and the timer would fail the day the file goes."
+msgstr "Ce dossier se range, et le minuteur échouerait le jour où le fichier disparaît."
+
+msgid "This is a folder"
+msgstr "C’est un dossier"
+
+msgid "This looks like data. Choose the program or script that uses it."
+msgstr "Ce sont des données. Choisissez le programme ou le script qui les utilise."
+
+msgid "This program is for {arch}, and this computer is {this}."
+msgstr "Ce programme est pour {arch}, et cet ordinateur est en {this}."
+
+msgid "This works while you are logged in; it cannot show anything otherwise."
+msgstr "Cela marche quand vous êtes connecté ; sinon rien ne peut s’afficher."
+
+msgid "Uses a desktop tool ({tool})"
+msgstr "Utilise un outil du bureau ({tool})"
+
+msgid "Uses paths relative to its folder"
+msgstr "Utilise des chemins relatifs à son dossier"
+
+msgid "Waits for the keyboard"
+msgstr "Attend le clavier"
+
+msgid "What Tempo found"
+msgstr "Ce que Tempo a trouvé"
+
+msgid "What the timer would run"
+msgstr "Ce que le minuteur lancerait"
+
+msgid "Windows line endings"
+msgstr "Fins de ligne Windows"
+
+msgid "_Choose a File…"
+msgstr "_Choisir un fichier…"
+
+msgid "{name} is not installed"
+msgstr "{name} n’est pas installé"
+
+msgid "Enter the command to run."
+msgstr "Saisissez la commande à lancer."
+
+msgid "Start with the full path of the program, such as /usr/bin/python3."
+msgstr "Commencez par le chemin complet du programme, par exemple /usr/bin/python3."
+
+msgid "This cannot be empty."
+msgstr "Ce champ ne peut pas être vide."
+
+msgid "This is too long."
+msgstr "C’est trop long."
+
+msgid "A quote is never closed."
+msgstr "Un guillemet n’est jamais fermé."
+
+msgid "The line ends with a backslash."
+msgstr "La ligne se termine par une barre oblique inverse."
+
+msgid "Give it a title, without a space at the start or the end."
+msgstr "Donnez-lui un titre, sans espace au début ni à la fin."
+
+msgid "The name must have 1 to 64 characters."
+msgstr "Le nom doit avoir de 1 à 64 caractères."
+
+msgid "The system cuts process names at 15 characters."
+msgstr "Le système coupe les noms de processus à 15 caractères."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Folder"
+msgstr "Dossier"
+
+msgid "Spread"
+msgstr "Étalement"
+
+msgid "Time limit"
+msgstr "Durée maximale"
+
+msgid "File"
+msgstr "Fichier"
+
+msgid "Every few minutes"
+msgstr "Toutes les quelques minutes"
+
+msgid "On some days of the week"
+msgstr "Certains jours de la semaine"
+
+msgid "Every month"
+msgstr "Chaque mois"
+
+msgid "Custom (calendar expression)"
+msgstr "Personnalisé (expression de calendrier)"
+
+msgid "The name identifies the timer to systemd: it cannot change."
+msgstr "Le nom identifie le minuteur auprès de systemd : il ne peut pas changer."
+
+msgid "The name identifies the timer to systemd: lowercase letters, digits and dashes."
+msgstr "Le nom identifie le minuteur auprès de systemd : lettres minuscules, chiffres et tirets."
+
+msgid "Starts from the folder (optional)"
+msgstr "Part du dossier (facultatif)"
+
+msgid "Keep a copy of the file"
+msgstr "Garder une copie du fichier"
+
+msgid "{path} may disappear: Tempo keeps its own copy and runs that one."
+msgstr "{path} peut disparaître : Tempo garde sa propre copie et lance celle-là."
+
+msgid "Try it once, now"
+msgstr "L’essayer une fois, maintenant"
+
+msgid "Runs the command for real, as the timer would, and shows what it says."
+msgstr "Lance la commande pour de bon, comme le ferait le minuteur, et montre ce qu’elle affiche."
+
+msgid "_Try It…"
+msgstr "_Essayer…"
+
+msgid "What to run"
+msgstr "Ce qu’il faut lancer"
+
+msgid "Repeat"
+msgstr "Répétition"
+
+msgid "Minutes between two runs"
+msgstr "Minutes entre deux exécutions"
+
+msgid "Counted from the end of the last run."
+msgstr "Comptées à partir de la fin de la dernière exécution."
+
+msgid "At minute"
+msgstr "À la minute"
+
+msgid "Hour"
+msgstr "Heure"
+
+msgid "Minute"
+msgstr "Minute"
+
+msgid "Day of the month"
+msgstr "Jour du mois"
+
+msgid "From 1 to 28, so that no month skips it."
+msgstr "De 1 à 28, pour qu’aucun mois ne le saute."
+
+msgid "Calendar expression"
+msgstr "Expression de calendrier"
+
+msgid "Run once after a missed time"
+msgstr "Lancer une fois après un passage manqué"
+
+msgid "If the computer was off or you were logged out at the time."
+msgstr "Si l’ordinateur était éteint ou si vous étiez déconnecté à ce moment-là."
+
+msgid "Days"
+msgstr "Jours"
+
+msgid "When"
+msgstr "Quand"
+
+msgid "This program is not running"
+msgstr "Ce programme ne tourne pas"
+
+msgid "The computer is on mains power"
+msgstr "L’ordinateur est branché sur le secteur"
+
+msgid "This file exists"
+msgstr "Ce fichier existe"
+
+msgid "Only if"
+msgstr "Seulement si"
+
+msgid "When one of these is not true, the run is skipped, not failed."
+msgstr "Quand l’une de ces conditions n’est pas vraie, l’exécution est ignorée, pas en échec."
+
+msgid "Spread the start (minutes)"
+msgstr "Étaler le démarrage (minutes)"
+
+msgid "Starts at a random moment within this time, to avoid a rush."
+msgstr "Démarre à un moment aléatoire dans ce délai, pour éviter la cohue."
+
+msgid "Low priority"
+msgstr "Priorité basse"
+
+msgid "Does not slow the computer down while it works."
+msgstr "Ne ralentit pas l’ordinateur pendant son travail."
+
+msgid "Stop it if it takes too long"
+msgstr "L’arrêter s’il est trop long"
+
+msgid "Time limit (minutes)"
+msgstr "Durée maximale (minutes)"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "_Save"
+msgstr "_Enregistrer"
+
+msgid "_Create"
+msgstr "_Créer"
+
+msgid "These files were changed outside Tempo. Saving replaces those changes."
+msgstr "Ces fichiers ont été modifiés en dehors de Tempo. Enregistrer remplace ces modifications."
+
+msgid "Saving…"
+msgstr "Enregistrement…"
+
+msgid "Creating…"
+msgstr "Création…"
+
+msgid "Edit Timer"
+msgstr "Modifier le minuteur"
+
+msgid "First run {first} after you log in, then {repeat} after the end of each run."
+msgstr "Première exécution {first} après votre connexion, puis {repeat} après la fin de chaque exécution."
+
+msgid "Next runs:"
+msgstr "Prochaines exécutions :"
+
+msgid "systemd does not understand this calendar expression."
+msgstr "systemd ne comprend pas cette expression de calendrier."
+
+msgid "Fix the problems above first."
+msgstr "Réglez d’abord les problèmes ci-dessus."
+
+msgid "“{name}” saved"
+msgstr "« {name} » enregistré"
+
+msgid "“{name}” created"
+msgstr "« {name} » créé"
+
+msgid "The Timer Was Not Saved"
+msgstr "Le minuteur n’a pas été enregistré"
+
+msgid "This Timer Cannot Be Changed"
+msgstr "Ce minuteur ne peut pas être modifié"
+
+msgid "_Close"
+msgstr "_Fermer"
+
+msgid "Run It Once Now?"
+msgstr "Le lancer une fois maintenant ?"
+
+msgid "This runs “{command}” for real, once, with the same environment as the timer. It is stopped after a minute."
+msgstr "Cela lance « {command} » pour de bon, une fois, dans le même environnement que le minuteur. Il est arrêté au bout d’une minute."
+
+msgid "_Cancel"
+msgstr "_Annuler"
+
+msgid "_Run"
+msgstr "_Lancer"
+
+msgid "Running it…"
+msgstr "Lancement…"
+
+msgid "It Could Not Be Run"
+msgstr "Impossible de le lancer"
+
+msgid "It Worked"
+msgstr "Ça a marché"
+
+msgid "It ended without an error."
+msgstr "Il s’est terminé sans erreur."
+
+msgid "It Failed"
+msgstr "Ça a échoué"
+
+msgid "It ended with the exit code {code}."
+msgstr "Il s’est terminé avec le code de sortie {code}."
+
+msgid "{n} s"
+msgstr "{n} s"
+
+msgid "{n} h"
+msgstr "{n} h"
+
+msgid "{n} min"
+msgstr "{n} min"
+
+msgctxt "schedule kind"
+msgid "Every hour"
+msgstr "Toutes les heures"
+
+msgctxt "schedule kind"
+msgid "Every day"
+msgstr "Tous les jours"
+
+msgid "{n} day"
+msgid_plural "{n} days"
+msgstr[0] "{n} jour"
+msgstr[1] "{n} jours"
+
+msgid "_Refresh"
+msgstr "_Actualiser"
+
+msgid "_About Tempo"
+msgstr "À _propos de Tempo"
+
+msgid "_Quit"
+msgstr "_Quitter"
+
+msgid "Main Menu"
+msgstr "Menu principal"
+
+msgid "See and manage your systemd user timers"
+msgstr "Voir et gérer vos minuteurs systemd utilisateur"

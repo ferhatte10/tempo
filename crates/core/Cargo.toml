@@ -1,0 +1,11 @@
+[package]
+name = "tempo-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "Tempo's logic: a systemd timer as the owner thinks of it, and the unit files it becomes"
+
+[lints]
+workspace = true

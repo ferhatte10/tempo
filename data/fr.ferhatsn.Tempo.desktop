@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Tempo
+Name[fr]=Tempo
+GenericName=Timer Manager
+GenericName[fr]=Gestionnaire de minuteurs
+Comment=See and manage your systemd user timers
+Comment[fr]=Voir et gérer vos minuteurs systemd utilisateur
+Exec=tempo
+Icon=fr.ferhatsn.Tempo
+Terminal=false
+StartupNotify=true
+Categories=GNOME;GTK;Utility;
+Keywords=systemd;timer;schedule;cron;task;script;minuteur;tâche;planification;

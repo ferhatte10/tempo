@@ -1,0 +1,157 @@
+/* Tempo's styles, on top of libadwaita (DESIGN.md). The @tempo_* colours are
+   defined in front of this file by `theme::css_colors`, for light and dark. */
+
+/* The next-run line: the first thing on the home page. */
+.tempo-banner {
+  padding: 20px 24px;
+  border-radius: 18px;
+  background-image: linear-gradient(135deg, alpha(@tempo_accent, 0.16), alpha(@tempo_accent, 0.05));
+}
+
+.tempo-banner > image {
+  color: @tempo_accent;
+}
+
+/* A timer is a card. */
+list.tempo-cards {
+  background: none;
+}
+
+list.tempo-cards > row {
+  background-color: @card_bg_color;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 2px alpha(black, 0.08), 0 0 0 1px alpha(currentColor, 0.07);
+  transition: background-image 150ms ease-out;
+}
+
+list.tempo-cards > row:hover {
+  background-image: linear-gradient(alpha(currentColor, 0.04), alpha(currentColor, 0.04));
+}
+
+list.tempo-cards > row:active {
+  background-image: linear-gradient(alpha(currentColor, 0.09), alpha(currentColor, 0.09));
+}
+
+list.tempo-cards > row:focus-visible {
+  outline: 2px solid @tempo_accent;
+  outline-offset: 2px;
+}
+
+list.tempo-cards > row.tempo-failed,
+.tempo-callout.tempo-failed {
+  background-image: linear-gradient(alpha(@tempo_bad, 0.12), alpha(@tempo_bad, 0.12));
+}
+
+.tempo-callout {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background-color: @card_bg_color;
+  box-shadow: 0 0 0 1px alpha(currentColor, 0.07);
+}
+
+/* The state dot: colour and word say the same thing. */
+.tempo-dot {
+  min-width: 10px;
+  min-height: 10px;
+  border-radius: 99px;
+  background-color: @tempo_idle;
+}
+
+.tempo-dot.ok { background-color: @tempo_ok; }
+.tempo-dot.bad { background-color: @tempo_bad; }
+.tempo-dot.run {
+  background-color: @tempo_accent;
+  animation: tempo-pulse 1.6s ease-in-out infinite;
+}
+
+.tempo-dot.large {
+  min-width: 14px;
+  min-height: 14px;
+}
+
+@keyframes tempo-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* The run strip: one bar per past run. */
+.tempo-bar {
+  min-width: 6px;
+  min-height: 20px;
+  border-radius: 3px;
+  background-color: alpha(currentColor, 0.12);
+  transition: background-color 250ms ease-out;
+}
+
+.tempo-strip.large .tempo-bar {
+  min-width: 9px;
+  min-height: 28px;
+  border-radius: 4px;
+}
+
+.tempo-bar.ok { background-color: @tempo_ok; }
+.tempo-bar.bad { background-color: @tempo_bad; }
+.tempo-bar.skip { background-color: @tempo_idle; opacity: 0.55; }
+
+.tempo-strip:focus-visible {
+  outline: 2px solid @tempo_accent;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Who owns the timer. */
+.tempo-chip {
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: small;
+  font-weight: 600;
+  background-color: alpha(currentColor, 0.1);
+}
+
+.tempo-chip.yours {
+  color: @tempo_accent;
+  background-color: alpha(@tempo_accent, 0.14);
+}
+
+.tempo-text-bad { color: @tempo_bad; }
+.tempo-text-warn { color: @tempo_warn; }
+
+.tempo-icon-ok { color: @tempo_ok; }
+.tempo-icon-warn { color: @tempo_warn; }
+.tempo-icon-bad { color: @tempo_bad; }
+
+/* What shows while a file is dragged over the window. */
+.tempo-drop {
+  margin: 12px;
+  border-radius: 18px;
+  border: 3px dashed @tempo_accent;
+  background-color: alpha(@window_bg_color, 0.9);
+}
+
+.tempo-drop label {
+  color: @tempo_accent;
+}
+
+/* The lines of a log. */
+.tempo-log-entry {
+  padding: 8px 12px;
+}
+
+.tempo-log-bad {
+  background-image: linear-gradient(alpha(@tempo_bad, 0.12), alpha(@tempo_bad, 0.12));
+}
+
+.tempo-log-warn {
+  background-image: linear-gradient(alpha(@tempo_warn, 0.12), alpha(@tempo_warn, 0.12));
+}
+
+.tempo-log-message {
+  font-size: 0.9em;
+}
+
+/* A command to copy. */
+.tempo-command {
+  padding: 8px 6px 8px 12px;
+}

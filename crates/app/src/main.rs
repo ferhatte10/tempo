@@ -1,0 +1,107 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright 2026 Ferhat Saidoun
+
+//! Tempo: see and manage your systemd user timers.
+//!
+//! - [`view`]    what the interface shows about a timer, without widgets;
+//! - [`words`]   its sentences, in the language of the system;
+//! - [`theme`]   the colours of DESIGN.md and the check that they are readable;
+//! - [`systemd`] the owner's systemd over D-Bus, read only;
+//! - [`snapshot`], [`unitfile`] from what it says to what is shown;
+//! - [`demo`]    made-up timers for the preview and the screenshots;
+//! - [`widgets`], [`detail`], [`window`] the interface.
+
+mod demo;
+mod detail;
+mod editor;
+mod files;
+mod journal;
+mod logs;
+mod probe;
+mod review;
+mod snapshot;
+mod systemd;
+mod theme;
+mod unitfile;
+mod view;
+mod widgets;
+mod window;
+mod words;
+
+use adw::prelude::*;
+use gettextrs::LocaleCategory;
+use gtk::glib;
+
+pub const APP_ID: &str = "fr.ferhatsn.Tempo";
+const GETTEXT_PACKAGE: &str = "tempo";
+const LOCALEDIR: &str = env!("TEMPO_LOCALEDIR");
+
+fn main() -> glib::ExitCode {
+    init_i18n();
+    let app = adw::Application::builder().application_id(APP_ID).build();
+    app.connect_startup(|app| {
+        load_css();
+        setup_icon();
+        window::set_shortcuts(app);
+    });
+    app.connect_activate(window::present);
+    app.run()
+}
+
+/// English is the source language; the system's language picks a translation.
+/// A failure only leaves the interface in English.
+#[allow(unsafe_code)]
+fn init_i18n() {
+    // SAFETY: called first thing in `main`, before GTK starts any thread.
+    if unsafe { gettextrs::setlocale(LocaleCategory::LcAll, "") }.is_none() {
+        glib::g_warning!("tempo", "Unsupported locale, falling back to English");
+    }
+    let dir = std::env::var("TEMPO_LOCALEDIR").unwrap_or_else(|_| LOCALEDIR.to_owned());
+    if let Err(err) = gettextrs::bindtextdomain(GETTEXT_PACKAGE, dir) {
+        glib::g_warning!("tempo", "Cannot bind translations: {err}");
+    }
+    if let Err(err) = gettextrs::bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8") {
+        glib::g_warning!("tempo", "Cannot set translation encoding: {err}");
+    }
+    if let Err(err) = gettextrs::textdomain(GETTEXT_PACKAGE) {
+        glib::g_warning!("tempo", "Cannot select translation domain: {err}");
+    }
+}
+
+/// The icon of the windows. Beside the source, `cargo run` finds it in `data/icons`.
+fn setup_icon() {
+    if let Some(display) = gtk::gdk::Display::default() {
+        gtk::IconTheme::for_display(&display)
+            .add_search_path(concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/icons"));
+    }
+    gtk::Window::set_default_icon_name(APP_ID);
+}
+
+/// Loads the stylesheet, with the colours of the current light or dark style,
+/// and again whenever the style changes.
+fn load_css() {
+    let Some(display) = gtk::gdk::Display::default() else {
+        glib::g_warning!("tempo", "No display: custom styles not loaded");
+        return;
+    };
+    let provider = gtk::CssProvider::new();
+    let apply = {
+        let provider = provider.clone();
+        move |dark: bool| {
+            let css = format!(
+                "{}{}",
+                theme::css_colors(dark),
+                include_str!("../data/style.css")
+            );
+            provider.load_from_string(&css);
+        }
+    };
+    let style = adw::StyleManager::default();
+    apply(style.is_dark());
+    style.connect_dark_notify(move |style| apply(style.is_dark()));
+    gtk::style_context_add_provider_for_display(
+        &display,
+        &provider,
+        gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
+    );
+}
