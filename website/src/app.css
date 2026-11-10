@@ -1,0 +1,348 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+ * Colour tokens (see DESIGN.md). Day is GNOME-like and clear; night is a deep
+ * violet. The app's violet is the action colour; the red of the triangle only
+ * marks (current page, section triangle); the run colours are the app's own
+ * states, used only in the run strip. Contrast pairs are checked by
+ * scripts/contrast.js (npm run check).
+ */
+:root {
+	--bg: #fafafa;
+	--bg-alt: #ffffff;
+	--surface: #ebe9f3;
+	--text: #1d1b26;
+	--text-2: #3e3b4d;
+	--text-3: #5d5970;
+	--code-bg: #1d1b26;
+	--code-text: #f3f2f7;
+	--link: #4a2fc4;
+	--link-hover: #2f1a8f;
+	--accent: #5a3edc;
+	--accent-hover: #4a2fc4;
+	--on-accent: #ffffff;
+	--mark-red: #e23439;
+	--mark-blue: #296eb4;
+	--border: #e4e2ec;
+	--tab-on-bg: #1d1b26;
+	--tab-on-fg: #ffffff;
+	--icon: #5a3edc;
+	--run-ok: #1e8e4e;
+	--run-bad: #c01c28;
+	--run-idle: #8e8a9c;
+	--run-now: #5a3edc;
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	--bg: #15131f;
+	--bg-alt: #1c1a29;
+	--surface: #2b2840;
+	--text: #f1eff8;
+	--text-2: #cdc9dc;
+	--text-3: #ada8c2;
+	--code-bg: #0d0c14;
+	--code-text: #f1eff8;
+	--link: #b8acff;
+	--link-hover: #ddd7ff;
+	--accent: #5a3edc;
+	--accent-hover: #4a2fc4;
+	--on-accent: #ffffff;
+	--border: #2d2a40;
+	--tab-on-bg: #f1eff8;
+	--tab-on-fg: #15131f;
+	--icon: #b8acff;
+	--run-ok: #57d38c;
+	--run-bad: #ff938c;
+	--run-idle: #6c6782;
+	--run-now: #b8acff;
+	color-scheme: dark;
+}
+
+/* Motion tokens (DESIGN.md, Motion). */
+:root {
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--motion-fast: 160ms;
+	--motion-base: 320ms;
+	--motion-slow: 700ms;
+}
+
+@theme inline {
+	--color-bg: var(--bg);
+	--color-bg-alt: var(--bg-alt);
+	--color-surface: var(--surface);
+	--color-text: var(--text);
+	--color-text-2: var(--text-2);
+	--color-text-3: var(--text-3);
+	--color-code-bg: var(--code-bg);
+	--color-code-text: var(--code-text);
+	--color-link: var(--link);
+	--color-link-hover: var(--link-hover);
+	--color-accent: var(--accent);
+	--color-accent-hover: var(--accent-hover);
+	--color-on-accent: var(--on-accent);
+	--color-mark-red: var(--mark-red);
+	--color-border: var(--border);
+	--color-tab-on-bg: var(--tab-on-bg);
+	--color-tab-on-fg: var(--tab-on-fg);
+	--color-icon: var(--icon);
+	--color-run-ok: var(--run-ok);
+	--color-run-bad: var(--run-bad);
+	--color-run-idle: var(--run-idle);
+	--color-run-now: var(--run-now);
+	--font-display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+	--font-sans: 'Atkinson Hyperlegible', system-ui, sans-serif;
+	--font-mono: ui-monospace, 'DejaVu Sans Mono', 'Cascadia Mono', monospace;
+}
+
+@layer base {
+	html {
+		background: var(--bg);
+		color: var(--text);
+		font-family: var(--font-sans);
+		font-size: 112.5%; /* 18 px body text */
+		line-height: 1.6;
+		-webkit-text-size-adjust: 100%;
+	}
+	body {
+		margin: 0;
+		min-height: 100dvh;
+		display: flex;
+		flex-direction: column;
+	}
+	/* Everything that can be clicked shows it (Tailwind 4 removed it on buttons). */
+	a,
+	button,
+	[role='tab'],
+	label[for],
+	summary {
+		cursor: pointer;
+	}
+	a {
+		color: var(--link);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
+	a:hover {
+		color: var(--link-hover);
+	}
+	:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 2px;
+		border-radius: 6px;
+	}
+	h1,
+	h2,
+	h3 {
+		font-family: var(--font-display);
+		text-wrap: balance;
+	}
+	p {
+		text-wrap: pretty;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			transition-duration: 0.01ms !important;
+			transition-delay: 0s !important;
+			animation-duration: 0.01ms !important;
+			animation-delay: 0s !important;
+		}
+	}
+}
+
+@layer components {
+	.container-site {
+		width: 100%;
+		max-width: 75rem;
+		margin-inline: auto;
+		padding-inline: 1.25rem;
+	}
+	@media (min-width: 48rem) {
+		.container-site {
+			padding-inline: 2rem;
+		}
+	}
+	.prose-site h2 {
+		font-size: 1.75rem;
+		font-weight: 800;
+		line-height: 1.15;
+		margin: 2.5rem 0 0.75rem;
+	}
+	.prose-site h3 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		margin: 1.75rem 0 0.5rem;
+	}
+	.prose-site p,
+	.prose-site ul,
+	.prose-site ol {
+		margin: 0 0 1rem;
+		color: var(--text-2);
+	}
+	.prose-site ul,
+	.prose-site ol {
+		padding-left: 1.25rem;
+	}
+	.prose-site li {
+		margin: 0.25rem 0;
+	}
+	.prose-site code {
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		background: var(--surface);
+		border-radius: 6px;
+		padding: 0.1em 0.35em;
+		overflow-wrap: anywhere;
+	}
+}
+
+/* Motion (DESIGN.md). Hidden states only exist while an animation runs or
+   when JavaScript marked an element as waiting (`data-reveal`): without
+   JavaScript, everything is shown. */
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(1rem);
+	}
+}
+@keyframes settle {
+	from {
+		opacity: 0;
+		transform: translateY(1.5rem) scale(0.985);
+	}
+}
+@keyframes grow {
+	from {
+		transform: scaleY(0);
+	}
+}
+@keyframes page-out {
+	to {
+		opacity: 0;
+	}
+}
+@keyframes page-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.75rem);
+	}
+}
+@keyframes join-left {
+	from {
+		transform: translateX(-45%);
+		opacity: 0;
+	}
+}
+@keyframes join-right {
+	from {
+		transform: translateX(45%);
+		opacity: 0;
+	}
+}
+
+@layer components {
+	/* Hero arrival: --d is the order in the cascade. */
+	.enter {
+		animation: rise var(--motion-slow) var(--ease-out) both;
+		animation-delay: calc(var(--d, 0) * 90ms);
+	}
+	.enter-settle {
+		animation: settle var(--motion-slow) var(--ease-out) both;
+		animation-delay: calc(var(--d, 0) * 90ms);
+	}
+	/* The section triangle: its two halves join. */
+	.tri-left,
+	.tri-right {
+		transform-box: fill-box;
+		transition:
+			transform var(--motion-slow) var(--ease-out),
+			opacity var(--motion-slow) var(--ease-out);
+		transition-delay: 120ms;
+	}
+	.enter .tri-left {
+		animation: join-left var(--motion-slow) var(--ease-out) 200ms both;
+	}
+	.enter .tri-right {
+		animation: join-right var(--motion-slow) var(--ease-out) 200ms both;
+	}
+	/* Sections on scroll (reveal.ts): --i staggers the members of a group. */
+	[data-reveal] {
+		transition:
+			opacity var(--motion-slow) var(--ease-out),
+			transform var(--motion-slow) var(--ease-out);
+		transition-delay: calc(var(--i, 0) * 80ms);
+	}
+	[data-reveal='pending'] {
+		opacity: 0;
+		transform: translateY(1.25rem);
+	}
+	[data-reveal='pending'] .tri-left {
+		transform: translateX(-45%);
+		opacity: 0;
+	}
+	[data-reveal='pending'] .tri-right {
+		transform: translateX(45%);
+		opacity: 0;
+	}
+	/* The run strip: its ten bars grow one after the other, oldest first,
+	   then the next run appears at its end (RunStrip.svelte). Once, on load. */
+	.run-bar {
+		transform-box: fill-box;
+		transform-origin: bottom;
+		animation: grow var(--motion-slow) var(--ease-out) both;
+		animation-delay: calc(400ms + var(--b, 0) * 70ms);
+	}
+	.run-next {
+		animation: rise var(--motion-slow) var(--ease-out) both;
+		animation-delay: 1.2s;
+	}
+	/* Buttons press under the finger or the mouse. */
+	.press {
+		transition-property: color, background-color, transform;
+		transition-duration: var(--motion-fast);
+		transition-timing-function: var(--ease-out);
+	}
+	.press:active {
+		transform: scale(0.97);
+	}
+	/* A newly chosen install tab. */
+	.tab-panel {
+		animation: rise var(--motion-base) var(--ease-out) both;
+	}
+}
+
+/* Between pages: a short cross-fade, the header stays still. Changing
+   language is a full load: the same fade (cross-document transitions). */
+@media (prefers-reduced-motion: no-preference) {
+	@view-transition {
+		navigation: auto;
+	}
+	header {
+		view-transition-name: site-header;
+	}
+	/* Fade-through, not a cross-fade: two pages of text never overlap. */
+	::view-transition-old(root) {
+		animation: page-out 140ms ease-in both;
+	}
+	::view-transition-new(root) {
+		animation: page-in var(--motion-base) var(--ease-out) 100ms both;
+	}
+	/* Day and night: the new theme spreads from the button (ThemeToggle). */
+	:root.theme-switching::view-transition-old(root),
+	:root.theme-switching::view-transition-new(root) {
+		animation: none;
+		mix-blend-mode: normal;
+	}
+	/* The whole page, header included, changes inside the circle. */
+	:root.theme-switching header {
+		view-transition-name: none;
+	}
+}
+

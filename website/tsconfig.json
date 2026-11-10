@@ -1,0 +1,11 @@
+{
+	"extends": "$app/tsconfig",
+	"compilerOptions": {
+		"rewriteRelativeImportExtensions": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"strict": true
+	},
+	"include": ["src", "vite.config.ts"],
+	"exclude": ["src/service-worker"]
+}

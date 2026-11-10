@@ -1,12 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Tempo app icon. The red and blue triangle is the personal mark of Ferhat Saidoun (ferhatsn.fr). -->
   <defs>
-    <linearGradient id="tempo-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7c5cf0"/>
-      <stop offset="1" stop-color="#4a2fc2"/>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6c4ff0"/>
+      <stop offset="1" stop-color="#4a2fc4"/>
     </linearGradient>
   </defs>
-  <rect x="8" y="8" width="112" height="112" rx="26" fill="url(#tempo-bg)"/>
-  <rect x="54" y="16" width="20" height="9" rx="4" fill="#fff"/>
-  <circle cx="64" cy="70" r="34" fill="none" stroke="#fff" stroke-width="9"/>
-  <path d="M64 48v23l16 10" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="8" y="16" width="112" height="104" rx="26" fill="#2c1a8a"/>
+  <rect x="8" y="8" width="112" height="104" rx="26" fill="url(#base)"/>
+  <rect x="9" y="9" width="110" height="102" rx="25" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="2"/>
+  <path d="M91.37 47.45 A31 31 0 1 1 65.08 31.02" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round"/>
+  <path d="M64 48 V62 L75 69" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <g stroke="#ffffff" stroke-width="3" stroke-linejoin="round">
+    <path d="M58,18 L81,31 L58,31 Z" fill="#e23439"/>
+    <path d="M58,31 L81,31 L58,44 Z" fill="#296eb4"/>
+  </g>
 </svg>

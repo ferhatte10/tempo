@@ -20,6 +20,13 @@ Two signatures, used nowhere else:
 - **The run strip**: ten small bars per timer, one per past run, green, red or
   grey. It replaces a table of dates.
 
+The icon (`data/icons/`): a white dial that closes into a clockwise arrow, on
+the violet rounded square, with the same depth as Tunnelbird's. The arrowhead is
+the red and blue triangle, Ferhat Saidoun's personal mark (the one in
+Tunnelbird's icon). The symbolic icon is the dial and arrow in one colour.
+Its geometry is exact (a circle of radius 31 on the 128 grid, a 60° opening):
+redraw it with the same numbers, never by eye.
+
 Everything else is plain libadwaita: no custom window chrome, no fake glass, no
 decoration that carries no meaning. Never a design that looks like a generic
 admin panel.

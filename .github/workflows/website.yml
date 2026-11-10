@@ -1,0 +1,137 @@
+name: Website
+
+# tempo.ferhatsn.fr. Every pull request that touches the site builds its image (the build runs
+# the type check, the contrast test and the static build), scans it and serves it the way the host
+# does. On main, the same image is published to GHCR, and the host deploys it by itself.
+
+on:
+  pull_request:
+    paths:
+      - website/**
+      - data/icons/**
+      - docs/screenshots/**
+      - .github/workflows/website.yml
+      - .github/actions/setup-trivy/**
+  push:
+    branches:
+      - main
+    paths:
+      - website/**
+      - data/icons/**
+      - docs/screenshots/**
+      - .github/workflows/website.yml
+      - .github/actions/setup-trivy/**
+  workflow_dispatch:
+
+# A new run on the same branch cancels the previous one (never on main).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/tempo-website
+
+jobs:
+  site:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4
+
+      - name: Build the image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7
+        with:
+          context: .
+          file: website/Dockerfile
+          load: true
+          tags: tempo-website:ci
+          # Local to the job: the publication below rebuilds nothing. Nothing is sent to GitHub.
+          cache-to: type=local,dest=/tmp/buildx-cache,mode=max
+
+      - uses: ./.github/actions/setup-trivy
+
+      # Blocking: nothing is published (so nothing is deployed) while the image has a fixable HIGH or
+      # CRITICAL vulnerability. The full report (fixable or not) is in the run summary.
+      - name: Scan the image
+        run: |
+          status=0
+          trivy image --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 tempo-website:ci || status=$?
+          trivy image --scanners vuln --severity HIGH,CRITICAL --format table --output trivy.txt tempo-website:ci
+          { echo "### tempo-website (HIGH/CRITICAL, fixable or not)"; echo '```'; cat trivy.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+
+      # As on the host: read-only, no capability, a writable /tmp only.
+      - name: Serve the image
+        run: |
+          docker run -d --name site -p 8080:8080 --read-only --tmpfs /tmp --cap-drop ALL \
+            --security-opt no-new-privileges tempo-website:ci
+          for _ in $(seq 1 15); do
+            curl -sf -o /dev/null http://localhost:8080/ && exit 0
+            sleep 1
+          done
+          docker logs site
+          exit 1
+
+      - name: Smoke tests
+        run: |
+          set -e
+          check() { # check <path> <expected status> [expected text]
+            code=$(curl -s -D /tmp/headers -o /tmp/body -w '%{http_code}' "http://localhost:8080$1")
+            echo "$code $1"
+            [ "$code" = "$2" ] || { echo "expected $2"; exit 1; }
+            [ -z "$3" ] || grep -q "$3" /tmp/body || { echo "'$3' missing"; exit 1; }
+          }
+          check / 200 'Tempo'
+          check /fr/ 200 'lang="fr"'
+          check /install/ 200 'Requirements'
+          check /docs/ 200
+          check /privacy/ 200
+          check /icon.svg 200
+          # The 404 page is drawn in the browser (SvelteKit's fallback): check the app is served.
+          check /does-not-exist 404 '/_app/immutable/'
+          # Relative redirect: the public host and scheme belong to the reverse proxy.
+          check /install 301
+          grep -qi '^location: /install/' /tmp/headers
+          # Security headers on every answer, and nothing that names the server.
+          check / 200
+          for h in strict-transport-security x-content-type-options referrer-policy permissions-policy \
+                   content-security-policy cross-origin-opener-policy; do
+            grep -qi "^$h:" /tmp/headers || { echo "header $h missing"; exit 1; }
+          done
+          ! grep -qi '^server: nginx/' /tmp/headers
+
+      - name: Container logs
+        if: always()
+        run: docker logs site 2>&1 | tail -50 || true
+
+      - name: Log in to GHCR
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Same build (cache): the published image is the one that was just scanned and tested.
+      - name: Publish the image
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7
+        with:
+          context: .
+          file: website/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=local,src=/tmp/buildx-cache

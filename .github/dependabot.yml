@@ -1,0 +1,30 @@
+# Dependency updates.
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      cargo:
+        update-types: [minor, patch]
+
+  - package-ecosystem: bun
+    directory: /website
+    schedule:
+      interval: weekly
+    groups:
+      website:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/*
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: docker
+    directory: /website
+    schedule:
+      interval: monthly
