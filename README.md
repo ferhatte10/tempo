@@ -42,6 +42,16 @@ Ubuntu 24.04 or later (or any distribution with systemd 250+), GNOME with GTK
 4.14 and libadwaita 1.5, and `journalctl`, `systemd-analyze` and `systemd-run`
 (part of systemd).
 
+## Install
+
+```sh
+curl -fsSL https://tempo.ferhatsn.fr/install.sh | sh
+```
+
+The latest release in your home folder, with no administrator password; run it
+again to update, add `-s -- --uninstall` after `sh` to remove it. Each release
+also has a `.deb` and an `.rpm` for amd64 and arm64.
+
 ## Build and run
 
 ```sh

@@ -1,5 +1,6 @@
 // Copies what the site shows from the app's own sources, so nothing is kept
-// twice: the icon and the screenshots (`make screenshots` in the repository).
+// twice: the icon, install.sh and the screenshots (`make screenshots` in the
+// repository).
 // Runs before dev, build and check. The copies are not committed (see
 // .gitignore).
 
@@ -17,6 +18,7 @@ function copy(from, to) {
 }
 
 copy(join(repo, 'data/icons/hicolor/scalable/apps/fr.ferhatsn.Tempo.svg'), join(site, 'static/icon.svg'));
+copy(join(repo, 'packaging/install.sh'), join(site, 'static/install.sh'));
 
 // The site's name of each screenshot, and the app's (docs/screenshots/<lang>/
 // <shot>-900-<theme>.png). Copied as <name>.png and <name>-dark.png.

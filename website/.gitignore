@@ -5,4 +5,5 @@ src/lib/paraglide/
 # Copied from the app's sources by scripts/assets.js
 src/lib/generated/
 static/icon.svg
+static/install.sh
 static/screenshots/

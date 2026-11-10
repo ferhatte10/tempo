@@ -44,6 +44,9 @@ through `journalctl`. It never runs as root and never touches system timers.
     the interface; `theme.rs` the colours and their contrast tests;
     `words.rs` the sentences; `demo.rs` made-up data.
 - `data/` the stylesheet, the icons and the desktop entry; `po/` translations.
+- `packaging/` the release files: `install.sh` (served by the site), the
+  archive it unpacks, the `.deb` and the `.rpm`; `CHANGELOG.md` gives each
+  release its notes.
 - `website/` the project's site (SvelteKit, static), see `website/README.md`
   and `website/DESIGN.md`.
 

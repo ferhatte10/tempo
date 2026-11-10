@@ -10,6 +10,7 @@ on:
       - website/**
       - data/icons/**
       - docs/screenshots/**
+      - packaging/install.sh
       - .github/workflows/website.yml
       - .github/actions/setup-trivy/**
   push:
@@ -19,6 +20,7 @@ on:
       - website/**
       - data/icons/**
       - docs/screenshots/**
+      - packaging/install.sh
       - .github/workflows/website.yml
       - .github/actions/setup-trivy/**
   workflow_dispatch:
@@ -98,6 +100,8 @@ jobs:
           check /docs/ 200
           check /privacy/ 200
           check /icon.svg 200
+          check /install.sh 200 'set -eu'
+          grep -qi '^content-type: text/plain' /tmp/headers
           # The 404 page is drawn in the browser (SvelteKit's fallback): check the app is served.
           check /does-not-exist 404 '/_app/immutable/'
           # Relative redirect: the public host and scheme belong to the reverse proxy.

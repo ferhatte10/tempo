@@ -186,9 +186,23 @@
 		margin: 0 0 1rem;
 		color: var(--text-2);
 	}
+	/* Tailwind removes list markers: put them back, or the indent has no reason. */
 	.prose-site ul,
 	.prose-site ol {
-		padding-left: 1.25rem;
+		padding-left: 1.5rem;
+	}
+	.prose-site ul {
+		list-style: disc;
+	}
+	.prose-site ol {
+		list-style: decimal;
+	}
+	.prose-site li {
+		padding-left: 0.25rem;
+	}
+	.prose-site li::marker {
+		color: var(--text-3);
+		font-weight: 700;
 	}
 	.prose-site li {
 		margin: 0.25rem 0;

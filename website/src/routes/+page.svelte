@@ -2,7 +2,8 @@
 	import { Feather, Languages, Lock, Play, ScrollText, ShieldCheck } from '@lucide/svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import { localizeHref } from '#lib/paraglide/runtime.js';
-	import { AVAILABLE } from '#lib/links.js';
+	import { AVAILABLE, INSTALL_COMMAND } from '#lib/links.js';
+	import CommandBox from '#lib/components/CommandBox.svelte';
 	import RunStrip from '#lib/components/RunStrip.svelte';
 	import Screenshot from '#lib/components/Screenshot.svelte';
 	import TriangleMark from '#lib/components/TriangleMark.svelte';
@@ -37,7 +38,9 @@
 		</h1>
 		<p class="enter m-0 max-w-[36ch] text-text-2 md:text-[1.1rem]" style="--d: 1">{m.hero_lead()}</p>
 		<div class="enter flex flex-col gap-2" style="--d: 2">
-			{#if !AVAILABLE}
+			{#if AVAILABLE}
+				<CommandBox command={INSTALL_COMMAND} label={m.hero_install_label()} />
+			{:else}
 				<p class="m-0 font-bold text-link">{m.soon_title()}</p>
 				<p class="m-0 max-w-[40ch] text-text-2">{m.hero_soon_text()}</p>
 			{/if}

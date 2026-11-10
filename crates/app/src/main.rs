@@ -65,8 +65,7 @@ fn init_i18n() {
     if unsafe { gettextrs::setlocale(LocaleCategory::LcAll, "") }.is_none() {
         glib::g_warning!("tempo", "Unsupported locale, falling back to English");
     }
-    let dir = std::env::var("TEMPO_LOCALEDIR").unwrap_or_else(|_| LOCALEDIR.to_owned());
-    if let Err(err) = gettextrs::bindtextdomain(GETTEXT_PACKAGE, dir) {
+    if let Err(err) = gettextrs::bindtextdomain(GETTEXT_PACKAGE, locale_dir()) {
         glib::g_warning!("tempo", "Cannot bind translations: {err}");
     }
     if let Err(err) = gettextrs::bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8") {
@@ -75,6 +74,33 @@ fn init_i18n() {
     if let Err(err) = gettextrs::textdomain(GETTEXT_PACKAGE) {
         glib::g_warning!("tempo", "Cannot select translation domain: {err}");
     }
+}
+
+/// Where the translations are: `TEMPO_LOCALEDIR`, else `share/locale` beside
+/// the program when it holds Tempo's (the release archive, unpacked anywhere
+/// by install.sh), else the folder chosen at build time.
+fn locale_dir() -> std::path::PathBuf {
+    if let Some(dir) = std::env::var_os("TEMPO_LOCALEDIR") {
+        return dir.into();
+    }
+    let beside = std::env::current_exe()
+        .ok()
+        .and_then(|exe| Some(exe.parent()?.parent()?.join("share/locale")));
+    beside
+        .filter(|dir| has_translations(dir))
+        .unwrap_or_else(|| LOCALEDIR.into())
+}
+
+fn has_translations(dir: &std::path::Path) -> bool {
+    std::fs::read_dir(dir).is_ok_and(|entries| {
+        entries.flatten().any(|entry| {
+            entry
+                .path()
+                .join("LC_MESSAGES")
+                .join(format!("{GETTEXT_PACKAGE}.mo"))
+                .is_file()
+        })
+    })
 }
 
 /// The icon of the windows. Beside the source, `cargo run` finds it in `data/icons`.
