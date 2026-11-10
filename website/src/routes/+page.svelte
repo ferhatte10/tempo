@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Keyboard, Languages, Lock, Play, ScrollText, ShieldCheck } from '@lucide/svelte';
+	import { Feather, Languages, Lock, Play, ScrollText, ShieldCheck } from '@lucide/svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import { AVAILABLE } from '#lib/links.js';
@@ -20,7 +20,7 @@
 		{ icon: ScrollText, title: m.f_logs_title, text: m.f_logs_text },
 		{ icon: Play, title: m.f_try_title, text: m.f_try_text },
 		{ icon: ShieldCheck, title: m.f_safe_title, text: m.f_safe_text },
-		{ icon: Keyboard, title: m.f_keys_title, text: m.f_keys_text },
+		{ icon: Feather, title: m.f_keys_title, text: m.f_keys_text },
 		{ icon: Languages, title: m.f_lang_title, text: m.f_lang_text },
 		{ icon: Lock, title: m.f_local_title, text: m.f_local_text }
 	];
