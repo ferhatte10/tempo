@@ -21,10 +21,12 @@ BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  pkgconfig(gtk4) >= 4.14
 BuildRequires:  pkgconfig(libadwaita-1) >= 1.5
+BuildRequires:  pkgconfig(libsoup-3.0)
 BuildRequires:  desktop-file-utils
 
 Requires:       gtk4 >= 4.14
 Requires:       libadwaita >= 1.5
+Requires:       libsoup3
 Requires:       systemd >= 250
 
 %description

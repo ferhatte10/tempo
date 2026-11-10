@@ -904,3 +904,39 @@ msgstr "Ouvrez Tempo pour lire son journal."
 
 msgid "Open Tempo"
 msgstr "Ouvrir Tempo"
+
+msgid "Check for _Updates"
+msgstr "Rechercher les _mises à jour"
+
+msgid "Check _Automatically"
+msgstr "Rechercher _automatiquement"
+
+msgid "Tempo was updated to {version}"
+msgstr "Tempo a été mis à jour en {version}"
+
+msgid "_What's New"
+msgstr "_Nouveautés"
+
+msgid "Cannot check for updates right now"
+msgstr "Impossible de rechercher les mises à jour pour le moment"
+
+msgid "Tempo is up to date"
+msgstr "Tempo est à jour"
+
+msgid "Tempo {version} is available"
+msgstr "Tempo {version} est disponible"
+
+msgid "_How to Update"
+msgstr "_Comment mettre à jour"
+
+msgid "Tempo was updated: restart it to use the new version"
+msgstr "Tempo a été mis à jour : redémarrez-le pour utiliser la nouvelle version"
+
+msgid "_Restart"
+msgstr "_Redémarrer"
+
+msgid "Update to Tempo {version}"
+msgstr "Passer à Tempo {version}"
+
+msgid "Run this command in a terminal: it installs the new version in your home folder, with no administrator password. Your timers are kept. Then restart Tempo."
+msgstr "Lancez cette commande dans un terminal : elle installe la nouvelle version dans votre dossier personnel, sans mot de passe administrateur. Vos minuteurs sont conservés. Redémarrez ensuite Tempo."
