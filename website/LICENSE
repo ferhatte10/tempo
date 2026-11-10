@@ -1,0 +1,16 @@
+Copyright (c) 2026 Ferhat Saidoun. All rights reserved.
+
+This licence covers the website in this folder (website/): its texts in every
+language, its design and layout, its code, and the pictures made for it.
+
+You may read this source, and run it to see how the site is built. You may not
+copy, adapt or publish any of it, in whole or in part, without written
+permission from the author.
+
+Not covered, and under the GNU General Public License v3.0 or later (see the
+LICENSE file at the root of the repository):
+
+- the application itself, and the files the site copies from it when it is
+  built: the icon (data/icons) and the screenshots (docs/screenshots);
+- the dependencies the site is built with, under their own licences (see
+  bun.lock).

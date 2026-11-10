@@ -1,0 +1,36 @@
+name: Install Trivy
+description: >-
+  Trivy at a fixed version, archive checked against its SHA-256 (never the trivy-action action by
+  tag: its tags were rewritten to malicious code in March 2026, GHSA-69fq-xp46-6x23). The
+  vulnerability database is cached for a day.
+runs:
+  using: composite
+  steps:
+    # To change the version: first check the archive's Sigstore signature (it proves the archive
+    # comes from Aqua's official workflow), then copy its checksum here:
+    #   cosign verify-blob trivy_<v>_Linux-64bit.tar.gz --bundle trivy_<v>_Linux-64bit.tar.gz.sigstore.json \
+    #     --certificate-identity-regexp '^https://github\.com/aquasecurity/trivy/\.github/workflows/' \
+    #     --certificate-oidc-issuer https://token.actions.githubusercontent.com
+    - name: Install Trivy (fixed version and checksum)
+      shell: bash
+      env:
+        TRIVY_VERSION: "0.76.0"
+        TRIVY_SHA256: e24b1c51293c1b15e4ba8d45bbc7891ba053f90278ec2698f3562c993e145fe7
+      run: |
+        curl -sSfLo /tmp/trivy.tar.gz \
+          "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz"
+        echo "${TRIVY_SHA256}  /tmp/trivy.tar.gz" | sha256sum -c -
+        sudo tar -xzf /tmp/trivy.tar.gz -C /usr/local/bin trivy
+        trivy --version
+
+    - name: Today's date (cache key)
+      id: day
+      shell: bash
+      run: echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+
+    - name: Cached vulnerability database
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: ~/.cache/trivy
+        key: trivy-db-${{ steps.day.outputs.date }}
+        restore-keys: trivy-db-

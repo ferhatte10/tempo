@@ -1,0 +1,37 @@
+{
+	"name": "tempo-website",
+	"private": true,
+	"license": "SEE LICENSE IN LICENSE",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "tempo.ferhatsn.fr: presentation, installation, documentation",
+	"imports": {
+		"#lib/*": "./src/lib/*"
+	},
+	"scripts": {
+		"assets": "node scripts/assets.js",
+		"dev": "node scripts/assets.js && vite dev",
+		"build": "node scripts/assets.js && vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "node scripts/assets.js && paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide --strategy url baseLocale && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && node scripts/contrast.js"
+	},
+	"devDependencies": {
+		"@fontsource-variable/bricolage-grotesque": "5.3.0",
+		"@fontsource/atkinson-hyperlegible": "5.3.0",
+		"@inlang/paraglide-js": "2.29.3",
+		"@inlang/plugin-message-format": "4.5.6",
+		"@lucide/svelte": "1.66.0",
+		"@sveltejs/adapter-static": "4.0.1",
+		"@sveltejs/kit": "3.1.1",
+		"@sveltejs/vite-plugin-svelte": "7.3.1",
+		"@tailwindcss/vite": "4.3.3",
+		"@types/node": "26.6.6",
+		"bits-ui": "2.20.2",
+		"svelte": "5.57.3",
+		"svelte-check": "4.7.7",
+		"tailwindcss": "4.3.3",
+		"typescript": "6.0.3",
+		"vite": "8.3.5"
+	}
+}

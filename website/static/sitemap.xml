@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+	<url>
+		<loc>https://tempo.ferhatsn.fr/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/fr/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/install/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/install/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/install/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/install/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/fr/install/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/install/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/install/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/install/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/docs/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/docs/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/docs/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/docs/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/fr/docs/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/docs/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/docs/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/docs/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/privacy/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/privacy/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/privacy/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/privacy/" />
+	</url>
+	<url>
+		<loc>https://tempo.ferhatsn.fr/fr/privacy/</loc>
+		<xhtml:link rel="alternate" hreflang="en" href="https://tempo.ferhatsn.fr/privacy/" />
+		<xhtml:link rel="alternate" hreflang="fr" href="https://tempo.ferhatsn.fr/fr/privacy/" />
+		<xhtml:link rel="alternate" hreflang="x-default" href="https://tempo.ferhatsn.fr/privacy/" />
+	</url>
+</urlset>

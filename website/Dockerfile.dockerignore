@@ -1,0 +1,12 @@
+# Context = the repository root; only what the site build needs goes in.
+*
+!data/icons/
+!docs/screenshots/
+!website/
+website/node_modules/
+website/build/
+website/.svelte-kit/
+website/src/lib/paraglide/
+website/src/lib/generated/
+website/static/icon.svg
+website/static/screenshots/

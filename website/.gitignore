@@ -1,0 +1,8 @@
+node_modules/
+.svelte-kit/
+build/
+src/lib/paraglide/
+# Copied from the app's sources by scripts/assets.js
+src/lib/generated/
+static/icon.svg
+static/screenshots/
