@@ -1,6 +1,6 @@
 # tempo.ferhatsn.fr: the static site, served by an unprivileged nginx.
-# Built from the repository root, because the site copies the app's icon and
-# screenshots at build time:
+# Built from the repository root, because the site copies the app's icon,
+# screenshots and install.sh at build time:
 #
 #   docker build -f website/Dockerfile -t tempo-website .
 #
@@ -11,6 +11,7 @@ WORKDIR /src
 # What scripts/assets.js reads from the app.
 COPY data/icons/ data/icons/
 COPY docs/screenshots/ docs/screenshots/
+COPY packaging/install.sh packaging/install.sh
 COPY website/package.json website/bun.lock website/
 RUN cd website && bun install --frozen-lockfile
 COPY website/ website/

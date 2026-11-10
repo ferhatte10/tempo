@@ -53,4 +53,4 @@ jobs:
         run: make check
 
       - name: ShellCheck
-        run: shellcheck scripts/screenshots.sh
+        run: shellcheck scripts/screenshots.sh packaging/*.sh

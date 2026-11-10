@@ -1,0 +1,162 @@
+name: Release
+
+# A tag vX.Y.Z publishes a release with no manual step: for amd64 and arm64, the archive that
+# install.sh unpacks in the home folder, a .deb and an .rpm; SHA256SUMS; and a build provenance
+# for each file (signed through GitHub's OIDC, no stored key:
+# `gh attestation verify <file> -R ferhatte10/tempo`). The notes are the version's section of
+# CHANGELOG.md.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  # The tag, Cargo.toml, the .spec and CHANGELOG.md must announce the same version.
+  version:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - id: version
+        run: |
+          tag=${GITHUB_REF_NAME#v}
+          cargo=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -n1)
+          spec=$(sed -n 's/^Version: *//p' packaging/tempo.spec)
+          changelog=$(sed -n 's/^## \([0-9][^ ]*\) .*/\1/p' CHANGELOG.md | head -n1)
+          echo "tag $tag, Cargo.toml $cargo, tempo.spec $spec, CHANGELOG.md $changelog"
+          [ "$tag" = "$cargo" ] && [ "$tag" = "$spec" ] && [ "$tag" = "$changelog" ] || {
+            echo "::error::the tag, Cargo.toml, packaging/tempo.spec and the newest section of CHANGELOG.md must match"
+            exit 1
+          }
+          echo "version=$tag" >> "$GITHUB_OUTPUT"
+
+  # Built on the oldest supported Ubuntu: the files then work on newer systems.
+  deb-and-archive:
+    needs: version
+    strategy:
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Install the build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libgtk-4-dev libadwaita-1-dev gettext desktop-file-utils dpkg-dev
+
+      - name: Rust (stable)
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: make deb archive
+        run: make deb archive
+
+      # The archive, unpacked elsewhere, finds its translations and every library.
+      - name: Check the archive
+        run: |
+          mkdir -p /tmp/unpacked
+          tar -xzf target/packages/tempo-*-linux-*.tar.gz -C /tmp/unpacked
+          program=$(echo /tmp/unpacked/tempo-*/bin/tempo)
+          ! ldd "$program" | grep 'not found'
+          test -f /tmp/unpacked/tempo-*/share/locale/fr/LC_MESSAGES/tempo.mo
+          test -f /tmp/unpacked/tempo-*/share/applications/fr.ferhatsn.Tempo.desktop
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: deb-and-archive-${{ runner.arch }}
+          path: |
+            target/packages/*.deb
+            target/packages/*.tar.gz
+          if-no-files-found: error
+
+  # Built inside Fedora, so it links against Fedora's own libraries.
+  rpm:
+    needs: version
+    strategy:
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    container:
+      image: fedora:42@sha256:99e203b80b1c3d8f7e161ec10a68fd02b081ef83a3963553e513c82846b97814
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Install the build dependencies
+        run: |
+          dnf install -y rpm-build dnf5-plugins
+          dnf builddep -y packaging/tempo.spec
+
+      - name: make rpm
+        run: make rpm
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: rpm-${{ runner.arch }}
+          path: target/packages/*/*.rpm
+          if-no-files-found: error
+
+  publish:
+    needs: [version, deb-and-archive, rpm]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          path: dist
+          merge-multiple: true
+
+      # The .rpm artifacts keep their architecture folder (x86_64/, aarch64/): every file goes
+      # to the top, side by side, for the checksums, the attestation and the release.
+      - name: Flatten the downloads
+        run: |
+          find dist -mindepth 2 -type f -exec mv -t dist {} +
+          find dist -mindepth 1 -type d -empty -delete
+          ls -l dist
+
+      # The section of this version in CHANGELOG.md, without its heading.
+      - name: Release notes
+        run: |
+          awk -v v="$VERSION" '/^## / { if (found) exit; if ($2 == v) { found = 1; next } } found' CHANGELOG.md > notes.md
+          test -s notes.md
+          cat notes.md
+
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum -- * > SHA256SUMS && cat SHA256SUMS
+
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: dist/*
+
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --title "Tempo $VERSION" --notes-file notes.md --verify-tag

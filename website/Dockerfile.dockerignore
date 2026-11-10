@@ -2,6 +2,7 @@
 *
 !data/icons/
 !docs/screenshots/
+!packaging/install.sh
 !website/
 website/node_modules/
 website/build/
@@ -9,4 +10,5 @@ website/.svelte-kit/
 website/src/lib/paraglide/
 website/src/lib/generated/
 website/static/icon.svg
+website/static/install.sh
 website/static/screenshots/

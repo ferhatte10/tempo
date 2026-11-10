@@ -7,6 +7,7 @@
 #   make dev-uninstall   remove them
 #   make check           format, lints, tests, desktop file
 #   make screenshots     the screenshots of the demo (docs/screenshots)
+#   make archive|deb|rpm the release files, in target/packages (packaging/)
 
 PREFIX    ?= /usr/local
 DESTDIR   ?=
@@ -16,7 +17,7 @@ LINGUAS   := $(shell grep -v '^\#' po/LINGUAS)
 # rustup installs cargo in ~/.cargo/bin, which is not always in PATH.
 CARGO     ?= $(shell command -v cargo 2>/dev/null || echo $(HOME)/.cargo/bin/cargo)
 
-.PHONY: all run check install uninstall dev-install dev-uninstall screenshots clean
+.PHONY: all run check install uninstall dev-install dev-uninstall screenshots archive deb rpm clean
 
 all:
 	LOCALEDIR=$(LOCALEDIR) $(CARGO) build --release --locked -p tempo
@@ -64,6 +65,16 @@ dev-uninstall:
 
 screenshots:
 	scripts/screenshots.sh
+
+# Release files (packaging/): the archive install.sh unpacks, and the packages.
+archive:
+	packaging/archive.sh
+
+deb:
+	packaging/deb.sh
+
+rpm:
+	rpmbuild -bb --build-in-place --define "_rpmdir $(CURDIR)/target/packages" packaging/tempo.spec
 
 clean:
 	$(CARGO) clean
