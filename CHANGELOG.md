@@ -3,7 +3,7 @@
 The newest version first. The release workflow publishes the section of a
 version as its release notes: keep the `## <version> (<date>)` heading.
 
-## 0.1.0 (2026-11-10)
+## 0.1.0 (2026-11-11)
 
 The first release.
 
