@@ -13,3 +13,14 @@
 	var wanted = chosen || (/^fr(-|$)/i.test(first) ? 'fr' : 'en');
 	if (wanted === 'fr') location.replace('/fr/' + location.search + location.hash);
 })();
+
+// A full load (a change of language) goes through the cross-document
+// transition of app.css. When the browser skips it, nothing is wrong: its
+// `ready` promise rejects, and is caught here rather than reported as an error.
+(function () {
+	function quiet(event) {
+		if (event.viewTransition) event.viewTransition.ready.catch(function () {});
+	}
+	addEventListener('pageswap', quiet);
+	addEventListener('pagereveal', quiet);
+})();
