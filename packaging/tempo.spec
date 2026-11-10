@@ -52,5 +52,5 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/fr.ferhatsn.Tempo.des
 %{_datadir}/locale/*/LC_MESSAGES/tempo.mo
 
 %changelog
-* Tue Nov 10 2026 Ferhat Saidoun <ferhatsnpro@gmail.com> - 0.1.0-1
+* Wed Nov 11 2026 Ferhat Saidoun <ferhatsnpro@gmail.com> - 0.1.0-1
 - First release
