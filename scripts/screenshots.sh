@@ -14,7 +14,7 @@ for lang in en fr; do
   for attempt in 1 2 3; do
     rm -rf "${out:?}/$lang"
     LANGUAGE=$lang TEMPO_SCREENSHOTS="$out/$lang" "$root/target/debug/tempo" || true
-    [ "$(ls "$out/$lang" 2>/dev/null | wc -l)" -ge "$expected" ] && break
+    [ "$(find "$out/$lang" -name "*.png" 2>/dev/null | wc -l)" -ge "$expected" ] && break
     echo "$lang: attempt $attempt took fewer than $expected screenshots" >&2
   done
 done
