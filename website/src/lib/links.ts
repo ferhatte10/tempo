@@ -2,10 +2,10 @@
 
 /**
  * While false (before a release), every install command and every GitHub link waits, and
- * the site says “coming soon”. True once a release exists and the source repository is
- * public.
+ * the site says “coming soon”. True since 0.1.0 (2026-11-11): the release exists and the
+ * source repository is public.
  */
-export const AVAILABLE = false;
+export const AVAILABLE = true;
 
 export const GITHUB = 'https://github.com/ferhatte10/tempo';
 export const ISSUES = `${GITHUB}/issues`;
