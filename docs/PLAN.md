@@ -1,6 +1,6 @@
 # Tempo: plan
 
-Status: phases 1 to 8 done (phase 8: menu, About, shortcuts, icons, desktop entry, `make install`, docs). Core: 67 tests; app: 63 tests + 2 real ones. Generated files accepted by
+Status: phases 1 to 8 done (phase 8: menu, About, shortcuts, icons, desktop entry, `make install`, docs); since then: the website (tempo.ferhatsn.fr) and failure notifications (`OnFailure=` → `tempo --notify-failed`). Core: 67 tests; app: 63 tests + 2 real ones. Generated files accepted by
 `systemd-analyze --user verify` on systemd 259. Interface on demo data: home page,
 timer page, empty state, English and French, light and dark, 14 tests (wording,
 relative times, and the contrast of every colour pair). Clippy is clean.

@@ -85,6 +85,19 @@ pub fn write_pair(dir: &Path, name: &str, pair: &Pair) -> io::Result<()> {
     write_file(&timer_path, &pair.timer)
 }
 
+/// Writes the notifier template ([`tempo_core::unit::NOTIFIER`]) for this
+/// program, unless it is already there as is. Returns true when it changed.
+pub fn write_notifier(dir: &Path, program: &Path) -> io::Result<bool> {
+    let path = dir.join(tempo_core::unit::NOTIFIER);
+    let text = tempo_core::unit::render_notifier(program);
+    if std::fs::read_to_string(&path).is_ok_and(|old| old == text) {
+        return Ok(false);
+    }
+    std::fs::create_dir_all(dir)?;
+    write_file(&path, &text)?;
+    Ok(true)
+}
+
 /// Removes both files; one already gone is not an error.
 pub fn remove_pair(dir: &Path, name: &str) -> io::Result<()> {
     let (timer_path, service_path) = paths(dir, name);
@@ -215,6 +228,7 @@ mod tests {
             conditions: Vec::new(),
             low_priority: false,
             timeout_secs: None,
+            notify_failure: false,
         }
     }
 

@@ -972,6 +972,7 @@ mod tests {
                 conditions: Vec::new(),
                 low_priority: false,
                 timeout_secs: None,
+                notify_failure: false,
             };
             assert_eq!(spec.validate(), Ok(()), "{file}");
         }

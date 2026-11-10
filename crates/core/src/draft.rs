@@ -72,6 +72,7 @@ pub struct Draft {
     pub spread_minutes: u32,
     pub low_priority: bool,
     pub timeout_minutes: Option<u32>,
+    pub notify_failure: bool,
     pub not_running: String,
     pub ac_power: bool,
     pub require_path: String,
@@ -101,6 +102,7 @@ impl Default for Draft {
             spread_minutes: 0,
             low_priority: false,
             timeout_minutes: None,
+            notify_failure: true,
             not_running: String::new(),
             ac_power: false,
             require_path: String::new(),
@@ -146,6 +148,7 @@ impl Draft {
             spread_minutes: spec.random_delay_secs / 60,
             low_priority: spec.low_priority,
             timeout_minutes: spec.timeout_secs.map(|secs| secs.div_ceil(60)),
+            notify_failure: spec.notify_failure,
             ..Draft::default()
         };
         let mut words = vec![path_text(&spec.command.program)];
@@ -297,6 +300,7 @@ impl Draft {
             timeout_secs: self
                 .timeout_minutes
                 .map(|minutes| minutes.saturating_mul(60)),
+            notify_failure: self.notify_failure,
         };
         spec.validate().map_err(|err| match err {
             SpecError::Schedule(err) => error(Field::Schedule, &err.to_string()),
@@ -439,6 +443,14 @@ mod tests {
             (Some(600), 300)
         );
         assert!(spec.low_priority);
+    }
+
+    #[test]
+    fn a_new_timer_tells_when_it_fails_unless_asked_not_to() {
+        let mut d = draft();
+        assert!(d.to_spec().expect("valid").notify_failure);
+        d.notify_failure = false;
+        assert!(!d.to_spec().expect("valid").notify_failure);
     }
 
     #[test]

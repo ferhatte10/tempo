@@ -877,3 +877,30 @@ msgstr "Menu principal"
 
 msgid "See and manage your systemd user timers"
 msgstr "Voir et gérer vos minuteurs systemd utilisateur"
+
+msgid "Tell me when it fails"
+msgstr "Me prévenir en cas d’échec"
+
+msgid "A notification says which timer failed and why, even when Tempo is closed."
+msgstr "Une notification dit quel minuteur a échoué et pourquoi, même quand Tempo est fermé."
+
+msgid "It stopped with the error code {code}."
+msgstr "Il s’est arrêté avec le code d’erreur {code}."
+
+msgid "It ran longer than its time limit and was stopped."
+msgstr "Il a dépassé sa durée maximale et a été arrêté."
+
+msgid "It was stopped before the end."
+msgstr "Il a été arrêté avant la fin."
+
+msgid "It did not finish as expected."
+msgstr "Il ne s’est pas terminé comme prévu."
+
+msgid "“{title}” failed"
+msgstr "« {title} » a échoué"
+
+msgid "Open Tempo to read its log."
+msgstr "Ouvrez Tempo pour lire son journal."
+
+msgid "Open Tempo"
+msgstr "Ouvrir Tempo"

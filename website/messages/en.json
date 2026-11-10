@@ -35,7 +35,7 @@
 	"editor_text": "Pick when it runs in words, add conditions (only if a program is not running, only on mains power), and see the next runs before saving. Tempo checks the timer with systemd itself, and can run the command once so you see what it says.",
 	"editor_alt": "The form of a new timer: name, command, schedule, conditions and the next runs",
 	"failed_title": "When something fails, you know why",
-	"failed_text": "A failed run turns the timer red, with the exit code and the last lines of its log. One click opens the full log, live, with only the problems if you want.",
+	"failed_text": "A failed run turns the timer red, with the exit code and the last lines of its log, and a notification tells you at once, even when Tempo is closed. One click opens the full log, live, with only the problems if you want.",
 	"failed_alt": "A timer whose last run failed, with its exit code and the end of its log",
 	"system_title": "Hands off the system’s timers",
 	"system_text": "Tempo changes only the timers it created. The others, from your system, your apps or written by hand, are shown with what they do, and the exact command to stop or turn them off if you choose to.",
@@ -109,5 +109,7 @@
 	"error_title": "Something went wrong",
 	"back_home": "Back to the home page",
 	"menu_open": "Open the menu",
-	"menu_close": "Close the menu"
+	"menu_close": "Close the menu",
+	"docs_notify_title": "Notifications",
+	"docs_notify_text": "A timer made by Tempo can tell you when a run fails (“Tell me when it fails” in the form, on by default). systemd itself starts the notification, so Tempo does not need to be open: it says which timer failed and why, and a click opens Tempo. Timers made before this option existed get it when you edit and save them."
 }

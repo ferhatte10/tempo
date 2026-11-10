@@ -27,6 +27,14 @@ and starts. A failed step puts everything back. The choices are stored in the
 `X-Tempo-*` keys, so a timer is read back exactly and a hand edit is noticed
 (`unit::edited_outside`).
 
+**A failed run is told by systemd, not by Tempo.** A timer with
+notifications on gets `OnFailure=tempo-notify@%n.service`; that template unit
+runs this program with `--notify-failed <service>`, which reads why the run
+failed, sends the notification over D-Bus and, on a click, opens Tempo in a
+unit of its own (`systemd-run`), since the notifier's unit stops with all it
+started. Nothing of Tempo runs in the background. The template points to the
+program that last saved a timer, and is written again when it moves.
+
 **The journal through `journalctl`.** One call reads the job messages of all the
 timers (the `MESSAGE_ID` of a job result with `USER_UNIT`, matched with the start
 and the exit status by invocation id); another follows the lines of one timer. A
