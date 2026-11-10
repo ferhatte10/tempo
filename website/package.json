@@ -19,7 +19,7 @@
 	"devDependencies": {
 		"@fontsource-variable/bricolage-grotesque": "5.3.0",
 		"@fontsource/atkinson-hyperlegible": "5.3.0",
-		"@inlang/paraglide-js": "2.29.3",
+		"@inlang/paraglide-js": "3.2.1",
 		"@inlang/plugin-message-format": "4.6.0",
 		"@lucide/svelte": "1.70.0",
 		"@sveltejs/adapter-static": "4.0.1",
