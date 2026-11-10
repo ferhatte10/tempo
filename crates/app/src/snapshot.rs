@@ -302,6 +302,7 @@ mod tests {
             conditions: vec![Condition::OnAcPower],
             low_priority: false,
             timeout_secs: None,
+            notify_failure: false,
         }
     }
 

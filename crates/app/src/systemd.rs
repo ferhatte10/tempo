@@ -204,6 +204,19 @@ impl Systemd {
         })
     }
 
+    /// How the last run of a loaded service ended: systemd's `Result`
+    /// (`exit-code`, `timeout`…) and its exit status.
+    pub async fn last_result(&self, service: &str) -> zbus::Result<(String, i32)> {
+        let manager = ManagerProxy::new(&self.conn).await?;
+        let path = manager.get_unit(service).await?;
+        let proxy = ServiceProxy::builder(&self.conn)
+            .path(path)
+            .cache_properties(zbus::proxy::CacheProperties::No)
+            .build()
+            .await?;
+        Ok((proxy.result().await?, proxy.exec_main_status().await?))
+    }
+
     /// Every timer of the owner's systemd, as the interface shows it.
     pub async fn timers(&self) -> zbus::Result<Vec<TimerView>> {
         let manager = ManagerProxy::new(&self.conn).await?;
@@ -737,6 +750,11 @@ impl Systemd {
         let manager = ManagerProxy::new(&self.conn).await.map_err(failed)?;
         let timer = format!("{name}.timer");
         let installed = async {
+            if spec.notify_failure {
+                // Points to this program, wherever it is now.
+                let program = std::env::current_exe().map_err(failed)?;
+                files::write_notifier(&dir, &program).map_err(failed)?;
+            }
             files::write_pair(&dir, name, &pair).map_err(failed)?;
             manager.reload().await.map_err(failed)?;
             if before.is_some() {
@@ -853,6 +871,7 @@ mod tests {
             conditions: Vec::new(),
             low_priority: false,
             timeout_secs: None,
+            notify_failure: false,
         };
         let saved = Saved {
             name: NAME.to_owned(),
@@ -993,6 +1012,7 @@ mod tests {
             conditions: Vec::new(),
             low_priority: false,
             timeout_secs: None,
+            notify_failure: false,
         }
     }
 

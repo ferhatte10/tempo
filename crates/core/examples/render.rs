@@ -67,6 +67,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             ],
             low_priority: true,
             timeout_secs: Some(600),
+            notify_failure: true,
         };
         std::fs::write(dir.join(spec.timer_unit()), render_timer(&spec)?)?;
         std::fs::write(dir.join(spec.service_unit()), render_service(&spec)?)?;

@@ -7,6 +7,7 @@
 //! - [`words`]   its sentences, in the language of the system;
 //! - [`theme`]   the colours of DESIGN.md and the check that they are readable;
 //! - [`systemd`] the owner's systemd over D-Bus, read only;
+//! - [`notify`]  the notification of a failed run (`--notify-failed`);
 //! - [`snapshot`], [`unitfile`] from what it says to what is shown;
 //! - [`demo`]    made-up timers for the preview and the screenshots;
 //! - [`widgets`], [`detail`], [`window`] the interface.
@@ -17,6 +18,7 @@ mod editor;
 mod files;
 mod journal;
 mod logs;
+mod notify;
 mod probe;
 mod review;
 mod snapshot;
@@ -38,6 +40,13 @@ const LOCALEDIR: &str = env!("TEMPO_LOCALEDIR");
 
 fn main() -> glib::ExitCode {
     init_i18n();
+    // Started by systemd when a run fails (notify.rs): no window.
+    let args: Vec<String> = std::env::args().collect();
+    if let [_, flag, service] = args.as_slice()
+        && flag == "--notify-failed"
+    {
+        return notify::run(service);
+    }
     let app = adw::Application::builder().application_id(APP_ID).build();
     app.connect_startup(|app| {
         load_css();

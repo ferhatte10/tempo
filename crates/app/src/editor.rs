@@ -413,6 +413,11 @@ pub fn page(draft: Draft, options: Options, callbacks: Callbacks) -> adw::Naviga
         start.timeout_minutes.unwrap_or(30),
     );
     limit_minutes.set_visible(start.timeout_minutes.is_some());
+    let notify_failure = switch(
+        &gettext("Tell me when it fails"),
+        &gettext("A notification says which timer failed and why, even when Tempo is closed."),
+        start.notify_failure,
+    );
     let options_group = adw::PreferencesGroup::builder()
         .title(gettext("Options"))
         .build();
@@ -420,6 +425,7 @@ pub fn page(draft: Draft, options: Options, callbacks: Callbacks) -> adw::Naviga
     options_group.add(&low_priority);
     options_group.add(&limit);
     options_group.add(&limit_minutes);
+    options_group.add(&notify_failure);
 
     // ---- The page --------------------------------------------------------
     let banner = adw::Banner::new("");
@@ -496,11 +502,12 @@ pub fn page(draft: Draft, options: Options, callbacks: Callbacks) -> adw::Naviga
         );
         let (not_running, ac_power, require_path) =
             (not_running.clone(), ac_power.clone(), require_path.clone());
-        let (spread, low_priority, limit, limit_minutes) = (
+        let (spread, low_priority, limit, limit_minutes, notify_failure) = (
             spread.clone(),
             low_priority.clone(),
             limit.clone(),
             limit_minutes.clone(),
+            notify_failure.clone(),
         );
         let (calendar_ok, generation) = (calendar_ok.clone(), generation.clone());
         let editing = options.editing;
@@ -535,6 +542,7 @@ pub fn page(draft: Draft, options: Options, callbacks: Callbacks) -> adw::Naviga
             d.spread_minutes = as_u32(&spread);
             d.low_priority = low_priority.is_active();
             d.timeout_minutes = limit.is_active().then(|| as_u32(&limit_minutes));
+            d.notify_failure = notify_failure.is_active();
             d.not_running = not_running.text().to_string();
             d.ac_power = ac_power.is_active();
             d.require_path = require_path.text().to_string();
@@ -617,7 +625,13 @@ pub fn page(draft: Draft, options: Options, callbacks: Callbacks) -> adw::Naviga
             move |_| go()
         });
     }
-    for switch in [&rows.catch_up, &ac_power, &low_priority, &limit] {
+    for switch in [
+        &rows.catch_up,
+        &ac_power,
+        &low_priority,
+        &limit,
+        &notify_failure,
+    ] {
         switch.connect_active_notify({
             let go = go(&refresh);
             move |_| go()

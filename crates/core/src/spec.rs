@@ -51,6 +51,9 @@ pub struct TimerSpec {
     pub low_priority: bool,
     /// Stop the run after this many seconds.
     pub timeout_secs: Option<u32>,
+    /// Show a desktop notification when a run fails (the notifier unit,
+    /// [`crate::unit::render_notifier`]).
+    pub notify_failure: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -218,6 +221,7 @@ pub(crate) mod tests {
             conditions: vec![Condition::ProcessNotRunning("stremio".to_owned())],
             low_priority: true,
             timeout_secs: Some(600),
+            notify_failure: false,
         }
     }
 

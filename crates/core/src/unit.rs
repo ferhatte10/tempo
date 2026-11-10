@@ -16,6 +16,9 @@ use crate::schedule::{Schedule, Timing};
 use crate::spec::{Command, Condition, SpecError, TimerSpec};
 
 const MANAGED: &str = "X-Tempo-Managed=1";
+/// The template unit a failed run starts (`OnFailure=`): its instance is the
+/// failed service, `tempo-notify@backup.service.service`.
+pub const NOTIFIER: &str = "tempo-notify@.service";
 /// Nice level of a low-priority run: the lowest priority.
 const LOW_NICE: u8 = 19;
 
@@ -168,6 +171,10 @@ pub fn render_service(spec: &TimerSpec) -> Result<String, SpecError> {
     if let Some(secs) = spec.timeout_secs {
         line(&mut out, "X-Tempo-Timeout", &secs.to_string());
     }
+    if spec.notify_failure {
+        line(&mut out, "X-Tempo-NotifyFailure", "yes");
+        line(&mut out, "OnFailure", "tempo-notify@%n.service");
+    }
     for condition in &spec.conditions {
         match condition {
             Condition::OnAcPower => line(&mut out, "ConditionACPower", "true"),
@@ -283,6 +290,7 @@ pub fn parse(name: &str, timer: &str, service: &str) -> Result<TimerSpec, ParseE
         conditions.push(condition_from_key(key).ok_or(unreadable("X-Tempo-Condition"))?);
     }
     let low_priority = first(service, "X-Tempo-LowPriority") == Some("yes");
+    let notify_failure = first(service, "X-Tempo-NotifyFailure") == Some("yes");
     let timeout_secs = match first(service, "X-Tempo-Timeout") {
         Some(text) => Some(text.parse().map_err(|_| unreadable("X-Tempo-Timeout"))?),
         None => None,
@@ -302,9 +310,27 @@ pub fn parse(name: &str, timer: &str, service: &str) -> Result<TimerSpec, ParseE
         conditions,
         low_priority,
         timeout_secs,
+        notify_failure,
     };
     spec.validate()?;
     Ok(spec)
+}
+
+/// The notifier template ([`NOTIFIER`]): runs `program --notify-failed` with
+/// the name of the service that failed. Carries no `X-Tempo-Managed` key: it
+/// is not a timer and is never listed or edited.
+pub fn render_notifier(program: &Path) -> String {
+    format!(
+        "[Unit]\nDescription=Tempo: tell that %i failed\n\n[Service]\nType=oneshot\nExecStart={} --notify-failed %i\n",
+        exec_word(&text_of(program))
+    )
+}
+
+/// The timer's name from the notifier's instance: `backup.service` → `backup`.
+pub fn failed_timer(instance: &str) -> Option<&str> {
+    instance
+        .strip_suffix(".service")
+        .filter(|name| !name.is_empty() && !name.contains('/'))
 }
 
 /// True when the files on disk are not exactly what Tempo would write for this
@@ -467,6 +493,27 @@ ExecStart=/home/user/.local/bin/clean-stremio-cache.sh
             ],
             low_priority: true,
             timeout_secs: Some(7200),
+            notify_failure: true,
+        }
+    }
+
+    #[test]
+    fn a_failure_starts_the_notifier() {
+        let service = render_service(&rich()).expect("renders");
+        assert!(service.contains("\nOnFailure=tempo-notify@%n.service\n"));
+        assert!(service.contains("\nX-Tempo-NotifyFailure=yes\n"));
+        let quiet = render_service(&crate::spec::tests::stremio()).expect("renders");
+        assert!(!quiet.contains("OnFailure"));
+    }
+
+    #[test]
+    fn the_notifier_runs_tempo_with_the_failed_unit() {
+        let unit = render_notifier(Path::new("/opt/my apps/tempo"));
+        assert!(unit.contains("\nExecStart=\"/opt/my apps/tempo\" --notify-failed %i\n"));
+        assert!(!unit.contains("X-Tempo-Managed"));
+        assert_eq!(failed_timer("backup.service"), Some("backup"));
+        for wrong in ["backup.timer", ".service", "a/b.service"] {
+            assert_eq!(failed_timer(wrong), None, "{wrong}");
         }
     }
 

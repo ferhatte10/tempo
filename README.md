@@ -25,6 +25,9 @@ reads its journal through `journalctl`. No Electron, no web view, no cron.
   spread, low priority, time limit). It can keep a copy of the file, check the
   result with `systemd-analyze` before installing it, and run the command once
   so you see what it says.
+- **Tells you when a run fails.** A desktop notification says which timer
+  failed and why, even when Tempo is closed: systemd starts it
+  (`OnFailure=`), and a click opens Tempo. On by default for a new timer.
 - **Changes and controls the timers it wrote:** Run Now, Pause, Resume, Turn
   Off, Turn On, Edit, and Delete with Undo.
 - **Never touches the others.** For a system or personal timer it shows what it
@@ -64,7 +67,8 @@ check. `make screenshots` redraws `docs/screenshots` from made-up timers.
 
 - Only your user systemd (`systemctl --user`): never the system's, never root.
 - It writes only `~/.config/systemd/user/<name>.timer` and `.service` for the
-  timers it creates, recognised by `X-Tempo-*` keys, and copies of files in
+  timers it creates, recognised by `X-Tempo-*` keys, the notifier they share
+  (`tempo-notify@.service`), and copies of files in
   `~/.local/share/tempo/scripts/<name>/`. Before any action on a timer it checks
   again that both files are its own.
 - A file you choose is read (its permissions and its first 64 KiB), never run,

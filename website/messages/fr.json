@@ -35,7 +35,7 @@
 	"editor_text": "Choisissez quand il tourne, en mots, ajoutez des conditions (seulement si un programme ne tourne pas, seulement sur secteur) et voyez les prochaines exécutions avant d’enregistrer. Tempo fait vérifier le minuteur par systemd lui-même, et peut lancer la commande une fois pour que vous voyiez ce qu’elle répond.",
 	"editor_alt": "Le formulaire d’un nouveau minuteur : nom, commande, horaire, conditions et prochaines exécutions",
 	"failed_title": "Quand ça échoue, vous savez pourquoi",
-	"failed_text": "Une exécution ratée passe le minuteur en rouge, avec son code de sortie et les dernières lignes de son journal. Un clic ouvre le journal complet, en direct, avec seulement les problèmes si vous le voulez.",
+	"failed_text": "Une exécution ratée passe le minuteur en rouge, avec son code de sortie et les dernières lignes de son journal, et une notification vous prévient tout de suite, même Tempo fermé. Un clic ouvre le journal complet, en direct, avec seulement les problèmes si vous le voulez.",
 	"failed_alt": "Un minuteur dont la dernière exécution a échoué, avec son code de sortie et la fin de son journal",
 	"system_title": "Pas touche aux minuteurs du système",
 	"system_text": "Tempo ne modifie que les minuteurs qu’il a créés. Les autres, ceux du système, des applications ou écrits à la main, sont affichés avec ce qu’ils font, et la commande exacte pour les arrêter ou les désactiver si vous le décidez.",
@@ -109,5 +109,7 @@
 	"error_title": "Quelque chose s’est mal passé",
 	"back_home": "Retour à l’accueil",
 	"menu_open": "Ouvrir le menu",
-	"menu_close": "Fermer le menu"
+	"menu_close": "Fermer le menu",
+	"docs_notify_title": "Notifications",
+	"docs_notify_text": "Un minuteur créé par Tempo peut vous prévenir quand une exécution échoue (« Me prévenir en cas d’échec » dans le formulaire, activé par défaut). C’est systemd qui lance la notification, donc Tempo n’a pas besoin d’être ouvert : elle dit quel minuteur a échoué et pourquoi, et un clic ouvre Tempo. Les minuteurs créés avant cette option la reçoivent quand vous les modifiez et les enregistrez."
 }
