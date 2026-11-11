@@ -62,7 +62,7 @@
 	"install_soon_lead": "Tempo is not available yet. Here is what it will need.",
 	"install_soon_text": "The first version is being finished. Its source and an install command will be published here, free, with no store and no account.",
 	"requirements_title": "Requirements",
-	"requirements_text": "Linux with systemd 250 or later, GTK 4.14 and libadwaita 1.5 or later: Ubuntu 24.04, Fedora 40 and later, or any distribution as recent. Tempo manages your own timers (systemctl --user) and never needs the administrator’s password.",
+	"requirements_text": "Linux with systemd 250 or later, GTK 4.14, libadwaita 1.5 or later and libsoup 3 (all on GNOME desktops): Ubuntu 24.04, Fedora 40 and later, or any distribution as recent. Tempo manages your own timers (systemctl --user) and never needs the administrator’s password.",
 	"source_title": "From source",
 	"source_lead": "Three steps, on Ubuntu or Debian (use your distribution’s names for the packages elsewhere).",
 	"source_deps": "Build dependencies",

@@ -8,8 +8,8 @@
 # Installs the latest release in your home folder, with no administrator
 # password: the program and its files in ~/.local/share/tempo, the command
 # in ~/.local/bin, the desktop entry and the icons in ~/.local/share. It
-# uses your system's GTK and libadwaita (GTK 4.14 and libadwaita 1.5 or
-# later: Ubuntu 24.04, Fedora 40, Debian 13 and later). Run it again to update.
+# uses your system's GTK, libadwaita and libsoup (GTK 4.14, libadwaita 1.5 or
+# later and libsoup 3: Ubuntu 24.04, Fedora 40, Debian 13 and later). Run it again to update.
 # Uninstalling leaves your timers in place: delete them in Tempo first if you
 # no longer want them.
 #
@@ -116,12 +116,12 @@ note "$name, checksum verified"
 tar -xzf "$work/$name" -C "$work"
 unpacked=$work/${name%.tar.gz}
 
-# GTK and libadwaita come from the system: check they are there and recent enough.
+# GTK, libadwaita and libsoup come from the system: check they are there and recent enough.
 if command -v ldd >/dev/null 2>&1; then
   missing=$(ldd "$unpacked/bin/tempo" 2>&1 | grep 'not found' || true)
   if [ -n "$missing" ]; then
     printf '%s\n' "$missing" >&2
-    fail "GTK 4.14 and libadwaita 1.5 or later are needed. On Ubuntu or Debian: sudo apt install libadwaita-1-0; on Fedora: sudo dnf install libadwaita."
+    fail "GTK 4.14, libadwaita 1.5 or later and libsoup 3 are needed. On Ubuntu or Debian: sudo apt install libadwaita-1-0 libsoup-3.0-0; on Fedora: sudo dnf install libadwaita libsoup3."
   fi
 fi
 
