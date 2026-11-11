@@ -39,6 +39,8 @@ through `journalctl`. It never runs as root and never touches system timers.
     journal (history of runs, log lines); `files.rs` the owner's unit files and
     kept copies; `probe.rs` reads a file to look at it; `notify.rs` the
     notification of a failed run (`tempo --notify-failed <service>`);
+    `update.rs` the daily check of the website's `latest.json` (libsoup) and
+    “What's New”; `settings.rs` the little state in `~/.config/tempo/settings`;
   - `snapshot.rs`, `unitfile.rs`, `view.rs` from what systemd says to what is shown;
   - `window.rs`, `detail.rs`, `review.rs`, `editor.rs`, `logs.rs`, `widgets.rs`
     the interface; `theme.rs` the colours and their contrast tests;

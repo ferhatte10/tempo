@@ -1,7 +1,8 @@
 name: Release
 
 # A tag vX.Y.Z publishes a release with no manual step: for amd64 and arm64, the archive that
-# install.sh unpacks in the home folder, a .deb and an .rpm; SHA256SUMS; and a build provenance
+# install.sh unpacks in the home folder, a .deb and an .rpm; SHA256SUMS; latest.json for the
+# app's update check; and a build provenance
 # for each file (signed through GitHub's OIDC, no stored key:
 # `gh attestation verify <file> -R ferhatte10/tempo`). The notes are the version's section of
 # CHANGELOG.md.
@@ -56,7 +57,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            libgtk-4-dev libadwaita-1-dev gettext desktop-file-utils dpkg-dev
+            libgtk-4-dev libadwaita-1-dev libsoup-3.0-dev gettext desktop-file-utils dpkg-dev
 
       - name: Rust (stable)
         run: |
@@ -147,6 +148,13 @@ jobs:
           awk -v v="$VERSION" '/^## / { if (found) exit; if ($2 == v) { found = 1; next } } found' CHANGELOG.md > notes.md
           test -s notes.md
           cat notes.md
+
+      # Read by the app once a day (tempo.ferhatsn.fr/latest.json redirects here).
+      - name: latest.json
+        run: |
+          date=$(sed -n "s/^## $VERSION (\(.*\))$/\1/p" CHANGELOG.md)
+          printf '{\n  "version": "%s",\n  "date": "%s",\n  "url": "https://tempo.ferhatsn.fr/install/"\n}\n' "$VERSION" "$date" > dist/latest.json
+          cat dist/latest.json
 
       - name: Checksums
         working-directory: dist

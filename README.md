@@ -55,7 +55,7 @@ also has a `.deb` and an `.rpm` for amd64 and arm64.
 ## Build and run
 
 ```sh
-sudo apt install libgtk-4-dev libadwaita-1-dev gettext desktop-file-utils   # Ubuntu / Debian
+sudo apt install libgtk-4-dev libadwaita-1-dev libsoup-3.0-dev gettext desktop-file-utils   # Ubuntu / Debian
 make run                # cargo run -p tempo
 make dev-install        # desktop entry and icons in ~/.local, for the dock icon
 sudo make install       # release build installed under /usr/local
@@ -81,6 +81,9 @@ check. `make screenshots` redraws `docs/screenshots` from made-up timers.
   (`tempo-notify@.service`), and copies of files in
   `~/.local/share/tempo/scripts/<name>/`. Before any action on a timer it checks
   again that both files are its own.
+- Its only network request: once a day at most, installs made by `install.sh`
+  or from a package ask `tempo.ferhatsn.fr/latest.json` for the newest version
+  number (“Check Automatically” in the main menu turns it off).
 - A file you choose is read (its permissions and its first 64 KiB), never run,
   except by the explicit “Try It…” button after a confirmation.
 

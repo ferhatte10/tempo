@@ -9,7 +9,8 @@
 		{ id: 'analysis', title: m.docs_analysis_title, text: m.docs_analysis_text },
 		{ id: 'conditions', title: m.docs_conditions_title, text: m.docs_conditions_text },
 		{ id: 'logs', title: m.docs_logs_title, text: m.docs_logs_text },
-		{ id: 'notifications', title: m.docs_notify_title, text: m.docs_notify_text }
+		{ id: 'notifications', title: m.docs_notify_title, text: m.docs_notify_text },
+		{ id: 'updates', title: m.docs_updates_title, text: m.docs_updates_text }
 	];
 
 	const keys = [

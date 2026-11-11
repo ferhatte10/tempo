@@ -51,7 +51,7 @@
 	"f_lang_title": "English and French",
 	"f_lang_text": "In your system’s language, light or dark like the rest of GNOME.",
 	"f_local_title": "Stays on your computer",
-	"f_local_text": "No account and no network: Tempo talks only to your own systemd.",
+	"f_local_text": "No account and no tracking: Tempo talks to your own systemd, and only asks this site once a day whether a new version exists.",
 	"why_title": "Why Tempo",
 	"why_text": "systemd timers are reliable, but reading them takes several commands and a good memory. Tempo puts them in one window, in words, and makes a new one without writing unit files by hand.",
 	"runs_on_title": "Light and native",
@@ -100,7 +100,7 @@
 	"privacy_lead": "Tempo asks for nothing and sends nothing about you.",
 	"privacy_app_title": "The app",
 	"privacy_app_1": "No account, no analytics, no tracking, no advertising.",
-	"privacy_app_2": "Tempo makes no network request. It talks only to systemd and its journal on your computer.",
+	"privacy_app_2": "Once a day at most, installs made with the install command or from a package ask this site for the latest version number. Nothing about you is sent, and “Check Automatically” in the main menu turns it off. It is the only network request Tempo makes; it talks to systemd and its journal on your computer.",
 	"privacy_app_3": "A file you choose is read, never sent anywhere, and never run unless you press Try It and confirm.",
 	"privacy_site_title": "This site",
 	"privacy_site_text": "No cookies, no analytics, no third-party content: fonts and images come from this site. Your theme and language choices are kept in your browser only.",
@@ -121,5 +121,7 @@
 	"packages_link": "Releases on GitHub",
 	"uninstall_script": "Installed with the command",
 	"uninstall_package": "Installed from a package",
-	"uninstall_source": "Built from source, in its folder"
+	"uninstall_source": "Built from source, in its folder",
+	"docs_updates_title": "Updates",
+	"docs_updates_text": "Once a day, Tempo asks this site whether a newer version exists and says so in a banner, with the way to get it: run the install command again, or download the new package. After an update, the first start offers to show what’s new. Check for Updates and Check Automatically are in the main menu."
 }

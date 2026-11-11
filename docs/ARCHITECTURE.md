@@ -35,6 +35,13 @@ unit of its own (`systemd-run`), since the notifier's unit stops with all it
 started. Nothing of Tempo runs in the background. The template points to the
 program that last saved a timer, and is written again when it moves.
 
+**Updates are announced, never installed.** Installs made by `install.sh` or
+from a package ask `tempo.ferhatsn.fr/latest.json` (a redirect to the latest
+release's `latest.json`) at most once a day, and only while “Check
+Automatically” is on; a newer version shows a banner with the way to get it.
+After an update, the first start offers the release notes of `CHANGELOG.md`.
+This is the only network request Tempo makes.
+
 **The journal through `journalctl`.** One call reads the job messages of all the
 timers (the `MESSAGE_ID` of a job result with `USER_UNIT`, matched with the start
 and the exit status by invocation id); another follows the lines of one timer. A

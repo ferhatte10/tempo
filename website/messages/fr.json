@@ -51,7 +51,7 @@
 	"f_lang_title": "Français et anglais",
 	"f_lang_text": "Dans la langue du système, en clair ou en sombre comme le reste de GNOME.",
 	"f_local_title": "Reste sur votre ordinateur",
-	"f_local_text": "Ni compte ni réseau : Tempo ne parle qu’à votre propre systemd.",
+	"f_local_text": "Ni compte ni pistage : Tempo parle à votre propre systemd, et demande seulement à ce site, une fois par jour, s’il existe une nouvelle version.",
 	"why_title": "Pourquoi Tempo",
 	"why_text": "Les timers systemd sont fiables, mais les lire demande plusieurs commandes et de la mémoire. Tempo les réunit dans une fenêtre, en mots, et en crée de nouveaux sans écrire de fichiers d’unité à la main.",
 	"runs_on_title": "Léger et natif",
@@ -100,7 +100,7 @@
 	"privacy_lead": "Tempo ne demande rien et n’envoie rien sur vous.",
 	"privacy_app_title": "L’application",
 	"privacy_app_1": "Ni compte, ni statistiques, ni pistage, ni publicité.",
-	"privacy_app_2": "Tempo ne fait aucune requête réseau. Il ne parle qu’à systemd et à son journal, sur votre ordinateur.",
+	"privacy_app_2": "Une fois par jour au plus, les installations faites avec la commande d’installation ou depuis un paquet demandent à ce site le numéro de la dernière version. Rien vous concernant n’est envoyé, et « Rechercher automatiquement » dans le menu principal le désactive. C’est la seule requête réseau de Tempo : il parle à systemd et à son journal, sur votre ordinateur.",
 	"privacy_app_3": "Un fichier que vous choisissez est lu, jamais envoyé, et jamais exécuté sauf si vous appuyez sur Essayer et confirmez.",
 	"privacy_site_title": "Ce site",
 	"privacy_site_text": "Ni cookie, ni statistiques, ni contenu tiers : les polices et les images viennent de ce site. Vos choix de thème et de langue restent dans votre navigateur.",
@@ -121,5 +121,7 @@
 	"packages_link": "Versions sur GitHub",
 	"uninstall_script": "Installé avec la commande",
 	"uninstall_package": "Installé depuis un paquet",
-	"uninstall_source": "Compilé depuis les sources, dans son dossier"
+	"uninstall_source": "Compilé depuis les sources, dans son dossier",
+	"docs_updates_title": "Mises à jour",
+	"docs_updates_text": "Une fois par jour, Tempo demande à ce site s’il existe une version plus récente et l’indique dans un bandeau, avec la façon de l’obtenir : relancer la commande d’installation, ou télécharger le nouveau paquet. Après une mise à jour, le premier démarrage propose de voir les nouveautés. « Rechercher les mises à jour » et « Rechercher automatiquement » sont dans le menu principal."
 }

@@ -40,7 +40,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            libgtk-4-dev libadwaita-1-dev gettext desktop-file-utils
+            libgtk-4-dev libadwaita-1-dev libsoup-3.0-dev gettext desktop-file-utils
 
       - name: Rust (stable, with rustfmt and clippy)
         run: |

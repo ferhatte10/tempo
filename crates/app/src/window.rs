@@ -14,7 +14,9 @@ use futures_util::StreamExt;
 use gettextrs::gettext;
 use gtk::{gdk, gio, glib};
 
+use crate::settings::Settings;
 use crate::systemd::{Saved, Systemd};
+use crate::update::{self, Install};
 use crate::view::{Action, Origin, TimerView};
 use crate::words::fill;
 use crate::{demo, detail, editor, files, logs, probe, review, widgets};
@@ -29,6 +31,23 @@ const SCALE: f32 = 1.0;
 const REFRESH_DEBOUNCE: Duration = Duration::from_millis(300);
 /// The relative times (“in 12 min”) are redrawn at least this often.
 const REFRESH_EVERY_SECS: u32 = 60;
+/// The first update check waits for the window to settle.
+const FIRST_UPDATE_CHECK: Duration = Duration::from_secs(5);
+/// How often a check is considered; it happens at most once a day.
+const UPDATE_TICK: Duration = Duration::from_secs(60 * 60);
+/// How often Tempo looks whether a newer version replaced it on disk.
+const RESTART_POLL: Duration = Duration::from_secs(60);
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+/// What the update banner says.
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum UpdateNotice {
+    None,
+    /// A newer version exists.
+    Available(String),
+    /// A newer version is installed: a restart runs it.
+    Restart,
+}
 
 pub struct Ui {
     pub window: adw::ApplicationWindow,
@@ -41,6 +60,9 @@ pub struct Ui {
     error: adw::StatusPage,
     timers: RefCell<Rc<Vec<TimerView>>>,
     refresh_queued: Cell<bool>,
+    update_banner: adw::Banner,
+    update_notice: RefCell<UpdateNotice>,
+    http: RefCell<Option<soup::Session>>,
 }
 
 fn section(title: &str, note: Option<&str>, list: &gtk::ListBox) -> gtk::Box {
@@ -117,6 +139,9 @@ impl Ui {
             error,
             timers: RefCell::new(Rc::new(Vec::new())),
             refresh_queued: Cell::new(false),
+            update_banner: adw::Banner::new(""),
+            update_notice: RefCell::new(UpdateNotice::None),
+            http: RefCell::new(None),
         });
         let home = ui.home_page(preview);
         ui.nav.add(&home);
@@ -145,6 +170,18 @@ impl Ui {
         files.append(Some(&gettext("_Choose a File…")), Some("win.open-file"));
         files.append(Some(&gettext("_Refresh")), Some("win.refresh"));
         menu.append_section(None, &files);
+        if Install::current().checks_website() && !preview {
+            let updates = gio::Menu::new();
+            updates.append(
+                Some(&gettext("Check for _Updates")),
+                Some("win.check-updates"),
+            );
+            updates.append(
+                Some(&gettext("Check _Automatically")),
+                Some("win.auto-updates"),
+            );
+            menu.append_section(None, &updates);
+        }
         let app = gio::Menu::new();
         app.append(Some(&gettext("_About Tempo")), Some("app.about"));
         app.append(Some(&gettext("_Quit")), Some("app.quit"));
@@ -160,6 +197,7 @@ impl Ui {
 
         let toolbar = adw::ToolbarView::new();
         toolbar.add_top_bar(&header);
+        toolbar.add_top_bar(&self.update_banner);
         if preview {
             let banner = adw::Banner::new(&gettext("A preview with made-up timers"));
             banner.set_revealed(true);
@@ -312,6 +350,183 @@ impl Ui {
         };
         let page = detail::page(timer, &self.context());
         self.nav.replace(&[home, page]);
+    }
+
+    /// Update notices (see `update.rs`): “What's New” after an update, then
+    /// the website's `latest.json` for the installs that rely on it, and a
+    /// restart once a newer version replaced this one.
+    fn setup_updates(self: &Rc<Self>) {
+        let ui = self.clone();
+        self.update_banner
+            .connect_button_clicked(move |_| ui.update_clicked());
+        self.whats_new();
+
+        let install = Install::current();
+        if install.checks_website() {
+            let known = Settings::load().update_available;
+            if tempo_core::version::is_newer(&known, VERSION) {
+                self.show_update(UpdateNotice::Available(known));
+            }
+            let ui = self.clone();
+            glib::timeout_add_local_once(FIRST_UPDATE_CHECK, move || {
+                ui.check_for_update();
+                glib::timeout_add_local(UPDATE_TICK, move || {
+                    ui.check_for_update();
+                    glib::ControlFlow::Continue
+                });
+            });
+        }
+        let ui = self.clone();
+        glib::timeout_add_local(RESTART_POLL, move || {
+            if update::installed_while_running(install) {
+                ui.show_update(UpdateNotice::Restart);
+                return glib::ControlFlow::Break;
+            }
+            glib::ControlFlow::Continue
+        });
+    }
+
+    /// First start of a new version: remember it and offer its release notes.
+    fn whats_new(&self) {
+        let mut settings = Settings::load();
+        let previous = std::mem::replace(&mut settings.last_version, VERSION.to_owned());
+        if previous == VERSION {
+            return;
+        }
+        if !tempo_core::version::is_newer(&settings.update_available, VERSION) {
+            settings.update_available.clear();
+        }
+        if let Err(err) = settings.save() {
+            glib::g_warning!("tempo", "Cannot save settings: {err}");
+        }
+        // Nothing to announce on the very first start or after a downgrade.
+        if previous.is_empty() || !tempo_core::version::is_newer(VERSION, &previous) {
+            return;
+        }
+        self.toasts.add_toast(
+            adw::Toast::builder()
+                .title(fill(
+                    &gettext("Tempo was updated to {version}"),
+                    &[("version", VERSION)],
+                ))
+                .button_label(gettext("_What's New"))
+                .action_name("app.about")
+                .timeout(10)
+                .build(),
+        );
+    }
+
+    fn check_for_update(self: &Rc<Self>) {
+        let settings = Settings::load();
+        if !settings.check_updates
+            || !tempo_core::version::check_due(settings.last_update_check, update::unix_now())
+        {
+            return;
+        }
+        self.fetch_update(false);
+    }
+
+    /// Asks the website for the latest version. A check asked from the menu
+    /// says what it found, even when there is nothing new or no answer.
+    fn fetch_update(self: &Rc<Self>, manual: bool) {
+        let session = self
+            .http
+            .borrow_mut()
+            .get_or_insert_with(update::new_session)
+            .clone();
+        let ui = self.clone();
+        glib::spawn_future_local(async move {
+            let latest = match update::fetch_latest(&session).await {
+                Ok(latest) => latest,
+                // Offline or the site is down: normal, tried again later.
+                Err(err) => {
+                    glib::g_info!("tempo", "Cannot check for updates: {err}");
+                    if manual {
+                        ui.toast(&gettext("Cannot check for updates right now"));
+                    }
+                    return;
+                }
+            };
+            let newer = tempo_core::version::is_newer(&latest, VERSION);
+            let mut settings = Settings::load();
+            settings.last_update_check = update::unix_now();
+            settings.update_available = if newer { latest.clone() } else { String::new() };
+            if let Err(err) = settings.save() {
+                glib::g_warning!("tempo", "Cannot save settings: {err}");
+            }
+            if newer {
+                ui.show_update(UpdateNotice::Available(latest));
+            } else if manual {
+                ui.toast(&gettext("Tempo is up to date"));
+            }
+        });
+    }
+
+    /// Shows `notice` in the banner. A pending restart is never replaced.
+    fn show_update(&self, notice: UpdateNotice) {
+        {
+            let current = self.update_notice.borrow();
+            if *current == notice || *current == UpdateNotice::Restart {
+                return;
+            }
+        }
+        let (title, button) = match &notice {
+            UpdateNotice::None => (String::new(), String::new()),
+            UpdateNotice::Available(version) => (
+                fill(
+                    &gettext("Tempo {version} is available"),
+                    &[("version", version)],
+                ),
+                gettext("_How to Update"),
+            ),
+            UpdateNotice::Restart => (
+                gettext("Tempo was updated: restart it to use the new version"),
+                gettext("_Restart"),
+            ),
+        };
+        self.update_banner.set_title(&title);
+        self.update_banner.set_button_label(Some(&button));
+        self.update_banner.set_use_markup(false);
+        self.update_banner
+            .set_revealed(notice != UpdateNotice::None);
+        self.update_notice.replace(notice);
+    }
+
+    fn update_clicked(self: &Rc<Self>) {
+        let notice = self.update_notice.borrow().clone();
+        match (notice, Install::current()) {
+            (UpdateNotice::Restart, _) => crate::request_restart(&self.window),
+            (UpdateNotice::Available(version), Install::Home) => self.explain_update(&version),
+            (UpdateNotice::Available(_), _) => {
+                gtk::UriLauncher::new(update::DOWNLOAD_URL).launch(
+                    Some(&self.window),
+                    None::<&gio::Cancellable>,
+                    |result| {
+                        if let Err(err) = result {
+                            glib::g_warning!("tempo", "Cannot open the download page: {err}");
+                        }
+                    },
+                );
+            }
+            (UpdateNotice::None, _) => {}
+        }
+    }
+
+    /// An install made by `install.sh` updates by running it again.
+    fn explain_update(&self, version: &str) {
+        let dialog = adw::AlertDialog::builder()
+            .heading(fill(
+                &gettext("Update to Tempo {version}"),
+                &[("version", version)],
+            ))
+            .body(gettext(
+                "Run this command in a terminal: it installs the new version in your home folder, \
+                 with no administrator password. Your timers are kept. Then restart Tempo.",
+            ))
+            .extra_child(&widgets::command_block(update::INSTALL_COMMAND))
+            .build();
+        dialog.add_response("close", &gettext("_Close"));
+        dialog.present(Some(&self.window));
     }
 
     fn toast(&self, message: &str) {
@@ -494,6 +709,29 @@ impl Ui {
             ui.nav.pop();
         });
         self.window.add_action(&back);
+
+        let check = gio::SimpleAction::new("check-updates", None);
+        let ui = self.clone();
+        check.connect_activate(move |_, _| ui.fetch_update(true));
+        self.window.add_action(&check);
+
+        let auto = gio::SimpleAction::new_stateful(
+            "auto-updates",
+            None,
+            &Settings::load().check_updates.to_variant(),
+        );
+        auto.connect_change_state(|action, value| {
+            let Some(on) = value.and_then(|value| value.get::<bool>()) else {
+                return;
+            };
+            action.set_state(&on.to_variant());
+            let mut settings = Settings::load();
+            settings.check_updates = on;
+            if let Err(err) = settings.save() {
+                glib::g_warning!("tempo", "Cannot save settings: {err}");
+            }
+        });
+        self.window.add_action(&auto);
 
         if app.lookup_action("about").is_none() {
             let about = gio::SimpleAction::new("about", None);
@@ -856,7 +1094,13 @@ fn show_about(window: &adw::ApplicationWindow) {
         .comments(gettext("See and manage your systemd user timers"))
         .license_type(gtk::License::Gpl30)
         .copyright("© 2026 Ferhat Saidoun")
+        .website("https://tempo.ferhatsn.fr")
+        .issue_url("https://github.com/ferhatte10/tempo/issues")
         .build();
+    if let Some((version, notes)) = update::release_notes() {
+        about.set_release_notes_version(&version);
+        about.set_release_notes(&notes);
+    }
     about.present(Some(window));
 }
 
@@ -904,6 +1148,7 @@ pub fn present(app: &adw::Application) {
     }
     let ui = Ui::new(app, DEFAULT_SIZE, false);
     ui.start_live();
+    ui.setup_updates();
     ui.window.present();
 }
 

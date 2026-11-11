@@ -8,7 +8,7 @@
 %global debug_package %{nil}
 
 Name:           tempo
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        See and manage your systemd user timers
 License:        GPL-3.0-or-later
@@ -21,10 +21,12 @@ BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  pkgconfig(gtk4) >= 4.14
 BuildRequires:  pkgconfig(libadwaita-1) >= 1.5
+BuildRequires:  pkgconfig(libsoup-3.0)
 BuildRequires:  desktop-file-utils
 
 Requires:       gtk4 >= 4.14
 Requires:       libadwaita >= 1.5
+Requires:       libsoup3
 Requires:       systemd >= 250
 
 %description
@@ -52,5 +54,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/fr.ferhatsn.Tempo.des
 %{_datadir}/locale/*/LC_MESSAGES/tempo.mo
 
 %changelog
+* Wed Nov 11 2026 Ferhat Saidoun <ferhatsnpro@gmail.com> - 0.2.0-1
+- Tell when a new version exists, and what is new after an update
+
 * Wed Nov 11 2026 Ferhat Saidoun <ferhatsnpro@gmail.com> - 0.1.0-1
 - First release

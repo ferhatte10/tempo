@@ -21,14 +21,19 @@ mod logs;
 mod notify;
 mod probe;
 mod review;
+mod settings;
 mod snapshot;
 mod systemd;
 mod theme;
 mod unitfile;
+mod update;
 mod view;
 mod widgets;
 mod window;
 mod words;
+
+use std::os::unix::process::CommandExt;
+use std::sync::atomic::{AtomicBool, Ordering};
 
 use adw::prelude::*;
 use gettextrs::LocaleCategory;
@@ -37,6 +42,8 @@ use gtk::glib;
 pub const APP_ID: &str = "fr.ferhatsn.Tempo";
 const GETTEXT_PACKAGE: &str = "tempo";
 const LOCALEDIR: &str = env!("TEMPO_LOCALEDIR");
+/// Set by [`request_restart`]: start again once the application has quit.
+static RESTART: AtomicBool = AtomicBool::new(false);
 
 fn main() -> glib::ExitCode {
     init_i18n();
@@ -54,7 +61,35 @@ fn main() -> glib::ExitCode {
         window::set_shortcuts(app);
     });
     app.connect_activate(window::present);
-    app.run()
+    let code = app.run();
+    if RESTART.load(Ordering::SeqCst) {
+        relaunch();
+    }
+    code
+}
+
+/// Quits, then starts the program again (after an update, the new one).
+pub fn request_restart(window: &adw::ApplicationWindow) {
+    RESTART.store(true, Ordering::SeqCst);
+    if let Some(app) = window.application() {
+        app.quit();
+    }
+}
+
+/// Replaces this process with a fresh one. The old instance has released its
+/// D-Bus name by now, so the new one starts as the primary instance.
+fn relaunch() {
+    match std::env::current_exe() {
+        Ok(exe) => {
+            // After an update the running program is “deleted”: start the new
+            // one installed at the same path.
+            let path = exe.to_string_lossy();
+            let exe = path.strip_suffix(" (deleted)").unwrap_or(&path);
+            let err = std::process::Command::new(exe).exec();
+            glib::g_critical!("tempo", "Cannot restart Tempo: {err}");
+        }
+        Err(err) => glib::g_critical!("tempo", "Cannot find the Tempo program: {err}"),
+    }
 }
 
 /// English is the source language; the system's language picks a translation.
