@@ -3,6 +3,19 @@
 The newest version first. The release workflow publishes the section of a
 version as its release notes: keep the `## <version> (<date>)` heading.
 
+## 0.2.0 (2026-11-11)
+
+Tempo tells you when a new version exists.
+
+- Once a day, Tempo asks its website whether a newer version exists, and shows
+  a banner with the way to get it: run the install command again, or download
+  the new package. Turn it off with Check Automatically in the main menu.
+- Check for Updates in the main menu asks at once.
+- After an update, Tempo offers to show what's new; the notes are also in the
+  About window.
+- When a newer version replaces Tempo while it runs, a banner offers to restart
+  it.
+
 ## 0.1.0 (2026-11-11)
 
 The first release.
