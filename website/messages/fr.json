@@ -62,7 +62,7 @@
 	"install_soon_lead": "Tempo n’est pas encore disponible. Voici ce qu’il demandera.",
 	"install_soon_text": "La première version est en cours de finition. Ses sources et une commande d’installation seront publiées ici, gratuitement, sans boutique ni compte.",
 	"requirements_title": "Ce qu’il faut",
-	"requirements_text": "Linux avec systemd 250 ou plus, GTK 4.14 et libadwaita 1.5 ou plus : Ubuntu 24.04, Fedora 40 et suivants, ou toute distribution aussi récente. Tempo gère vos propres minuteurs (systemctl --user) et ne demande jamais le mot de passe administrateur.",
+	"requirements_text": "Linux avec systemd 250 ou plus, GTK 4.14, libadwaita 1.5 ou plus et libsoup 3 (tous présents sur les bureaux GNOME) : Ubuntu 24.04, Fedora 40 et suivants, ou toute distribution aussi récente. Tempo gère vos propres minuteurs (systemctl --user) et ne demande jamais le mot de passe administrateur.",
 	"source_title": "Depuis les sources",
 	"source_lead": "Trois étapes, sur Ubuntu ou Debian (ailleurs, prenez les noms de paquets de votre distribution).",
 	"source_deps": "Dépendances de compilation",
